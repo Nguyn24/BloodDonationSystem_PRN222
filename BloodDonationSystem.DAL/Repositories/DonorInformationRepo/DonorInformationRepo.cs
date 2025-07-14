@@ -48,7 +48,7 @@ public class DonorInformationRepo : IDonorInformationRepo
         await context.SaveChangesAsync();
     }
 
-    public async Task DeleteUserAsync(DonorInformation donor)
+    public async Task DeleteDonorAsync(DonorInformation donor)
     {
          context.DonorInformations.Remove(donor);
          await context.SaveChangesAsync();

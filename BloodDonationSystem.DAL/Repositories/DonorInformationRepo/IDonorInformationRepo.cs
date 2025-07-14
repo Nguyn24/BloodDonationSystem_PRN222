@@ -10,5 +10,5 @@ public interface IDonorInformationRepo
 
     Task UpdateDonorAsync(UpdateDonorRequest request);
 
-    Task DeleteUserAsync(DonorInformation donor);
+    Task DeleteDonorAsync(DonorInformation donor);
 }

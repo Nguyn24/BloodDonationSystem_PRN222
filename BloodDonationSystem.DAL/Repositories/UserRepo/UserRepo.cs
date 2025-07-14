@@ -1,19 +1,32 @@
 ﻿using BloodDonationSystem.DAL.DBContext;
 using BloodDonationSystem.DAL.Repositories.Requests;
+using BloodDonationSystem.DAL.Repositories.Responses;
 using BloodDonationSystem.DAL.Shared;
 using BusinessObject.Entities;
 using BusinessObject.Entities.Enum;
 using Microsoft.EntityFrameworkCore;
+using DonorInformation = BloodDonationSystem.DAL.Repositories.Responses.DonorInformation;
 
 namespace BloodDonationSystem.DAL.Repositories.UserRepo;
 
 public class UserRepo : IUserRepo
 {
     private readonly BloodDonationPrn222Context context;
+    private readonly UserContext userContext;
     private readonly PasswordHasher passwordHasher;
     
     public async Task<User?> GetByEmailAndPasswordAsync(string email, string password)
     {
+        var user = context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+        if (user.Role == UserRole.Admin)
+        {
+            return new User
+            {
+                Email = email,
+                Name = "Admin",
+                Role = UserRole.Admin,
+            };
+        }
         return await context.Users
             .FirstOrDefaultAsync(a => a.Email == email && a.Password == password);
     }
@@ -22,6 +35,41 @@ public class UserRepo : IUserRepo
     {
         return await context.Users.ToListAsync();
     }
+
+    public async Task<GetCurrentUserResponse> GetCurrentUserAsync()
+    {
+        var currentUserId = userContext.UserId;
+
+        var user = await context.Users
+            .Include(u => u.BloodType)
+            .Include(u => u.DonorInformation)
+            .FirstOrDefaultAsync(p => p.UserId == currentUserId);
+        
+        var response = new GetCurrentUserResponse
+        {
+            FullName = user.Name,
+            Email = user.Email,
+            Role = user.Role.ToString(),
+            BloodTypeName = user.BloodType != null ? user.BloodType.Name : null,
+            DateOfBirth = user.DateOfBirth,
+            Phone = user.Phone,
+            Address = user.Address,
+            Gender = user.Gender,
+            IsDonor = user.IsDonor,
+            LastDonationDate = user.LastDonationDate,
+            Status = user.Status,
+            DonorInformation = user.DonorInformation == null ? null : new DonorInformation
+            {
+                Weight = user.DonorInformation.Weight,
+                Height = user.DonorInformation.Height,
+                MedicalStatus = user.DonorInformation.MedicalStatus.ToString() ?? "Unknown",
+                LastChecked = user.DonorInformation.LastChecked
+            }
+        };
+
+        return response;
+    }
+
 
     public async Task<List<User>> GetUserByNameAsync(string userName)
     {
