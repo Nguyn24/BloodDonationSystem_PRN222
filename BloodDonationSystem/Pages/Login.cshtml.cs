@@ -1,63 +1,65 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using BloodDonationSystem.BLL.Services.UserService;
+using BusinessObject.Entities.Enum;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BloodDonationSystem.Pages
 {
     public class LoginModel : PageModel
     {
-      
-
-        // [BindProperty] public string Email { get; set; }
-        // [BindProperty] public string Password { get; set; }
-        //
-        // public string ErrorMessage { get; set; }
-        //
-        // public async Task<IActionResult> OnPostAsync()
-        // {
-        //     // ✅ Nếu là logout
-        //     if (Request.Form.ContainsKey("logout"))
-        //     {
-        //         HttpContext.Session.Clear();
-        //         return Page(); // quay lại login rỗng
-        //     }
-        //
-        //     // ✅ Kiểm tra login input
-        //     if (string.IsNullOrWhiteSpace(Email))
-        //     {
-        //         ErrorMessage = "Email không được để trống.";
-        //         return Page();
-        //     }
-        //
-        //     if (string.IsNullOrWhiteSpace(Password))
-        //     {
-        //         ErrorMessage = "Mật khẩu không được để trống.";
-        //         return Page();
-        //     }
-        //
-        //     var user = await _accountService.AuthenticateAsync(Email, Password);
-        //
-        //     if (user == null)
-        //     {
-        //         ErrorMessage = "Email hoặc mật khẩu không đúng.";
-        //         return Page();
-        //     }
-        //
-        //     HttpContext.Session.SetString("Role", user.AccountRole?.ToString() ?? "0");
-        //     HttpContext.Session.SetInt32("UserId", user.AccountId);
-        //     HttpContext.Session.SetString("Email", user.AccountEmail);
-        //     HttpContext.Session.SetString("AccountName", user.AccountName);
-        //     
-        //     if (user.AccountRole == 0)
-        //     {
-        //         return RedirectToPage("/SystemAccounts");
-        //     }
-        //
-        //     return RedirectToPage("/NewsArticles");
-        // }
-        //
-        // public IActionResult OnPostLogout()
-        // {
-        //     HttpContext.Session.Clear();
-        //     return RedirectToPage("/NewsArticles");
-        // }
+        [BindProperty] public string Email { get; set; }
+        [BindProperty] public string Password { get; set; }
+        
+        public string ErrorMessage { get; set; }
+        private readonly IUserService _accountService;
+        
+        public async Task<IActionResult> OnPostAsync()
+        {
+            // ✅ Nếu là logout
+            if (Request.Form.ContainsKey("logout"))
+            {
+                HttpContext.Session.Clear();
+                return Page(); // quay lại login rỗng
+            }
+        
+            // ✅ Kiểm tra login input
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                ErrorMessage = "Email can not be empty.";
+                return Page();
+            }
+        
+            if (string.IsNullOrWhiteSpace(Password))
+            {
+                ErrorMessage = "Password can not be empty.";
+                return Page();
+            }
+        
+            var user = await _accountService.AuthenticateAsync(Email, Password);
+        
+            if (user == null)
+            {
+                ErrorMessage = "Email or password is incorrect.";
+                return Page();
+            }
+        
+            HttpContext.Session.SetString("Role", user.Role.ToString());
+            HttpContext.Session.SetString("UserId", user.UserId.ToString());
+            HttpContext.Session.SetString("Email", user.Email);
+            HttpContext.Session.SetString("AccountName", user.Name);
+            
+            if (user.Role == UserRole.Admin)
+            {
+                return RedirectToPage("/Admin");
+            }
+        
+            return RedirectToPage("/HomePage");
+        }
+        
+        public IActionResult OnPostLogout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToPage("/HomePage");
+        }
     }
 }
