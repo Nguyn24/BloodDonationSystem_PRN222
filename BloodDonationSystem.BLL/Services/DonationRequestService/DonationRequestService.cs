@@ -28,8 +28,13 @@ public class DonationRequestService : IDonationRequestService
         await _donationRequestRepo.ConfirmDonationRequestAsync(requestId);
     }
 
-    public async Task CompleteDonationRequestAsync(Guid requestId)
+    public async Task CompleteDonationRequestAsync(Guid requestId, int amountBlood)
     {
-        await _donationRequestRepo.CompleteDonationRequestAsync(requestId);
+        await _donationRequestRepo.CompleteDonationRequestAsync(requestId, amountBlood );
+    }
+    
+    public async Task UpdateFailedDonationRequestAsync(Guid requestId, string reason)
+    {
+        await _donationRequestRepo.UpdateFailedDonationRequestAsync(requestId, reason);
     }
 }

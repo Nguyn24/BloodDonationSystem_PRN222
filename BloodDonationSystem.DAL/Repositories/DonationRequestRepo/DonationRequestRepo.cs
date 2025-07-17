@@ -60,7 +60,7 @@ public class DonationRequestRepo : IDonationRequestRepo
         await context.SaveChangesAsync();
     }
 
-    public async Task CompleteDonationRequestAsync(Guid requestId)
+    public async Task CompleteDonationRequestAsync(Guid requestId, int amountBlood)
     {
         var donationRequest = await context.DonationRequests
             .FirstOrDefaultAsync(r => r.RequestId == requestId);
@@ -68,6 +68,8 @@ public class DonationRequestRepo : IDonationRequestRepo
         var bloodStored = await context.BloodStoreds
             .FirstOrDefaultAsync(b => b.BloodTypeId == donationRequest.BloodTypeId);
         
+        donationRequest.AmountBlood = amountBlood;
+
         bloodStored.Quantity += donationRequest.AmountBlood;
         bloodStored.LastUpdated = DateTime.UtcNow;
 
@@ -83,6 +85,16 @@ public class DonationRequestRepo : IDonationRequestRepo
 
         donationRequest.Status = DonationRequestStatus.Completed;
 
+        await context.SaveChangesAsync();
+    }
+
+    public async Task UpdateFailedDonationRequestAsync(Guid requestId, string reason)
+    {
+        var donationRequest = await context.DonationRequests
+            .FirstOrDefaultAsync(r => r.RequestId == requestId);
+
+        donationRequest.Status = DonationRequestStatus.Failed;
+        donationRequest.Note = reason;
         await context.SaveChangesAsync();
     }
 }
