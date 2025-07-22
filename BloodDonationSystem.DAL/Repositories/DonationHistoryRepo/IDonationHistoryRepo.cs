@@ -6,5 +6,6 @@ namespace BloodDonationSystem.DAL.Repositories.DonationHistoryRepo;
 public interface IDonationHistoryRepo
 {
     Task<List<DonationsHistory>> GetDonationHistoryAsync();
+    Task<List<DonationsHistory>> GetMyDonationHistoryAsync();
 
 }

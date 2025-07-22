@@ -1,0 +1,14 @@
+@page
+@model BloodDonationSystem.Pages.DonationRequest.Staff.CompleteModel
+
+@{
+    ViewData["Title"] = "CompleteRequest";
+    Layout = null;
+}
+
+<form method="post">
+    <input type="hidden" asp-for="RequestId" />
+    <label>Actual donated amount (ml)</label>
+    <input asp-for="AmountBlood" type="number" class="form-control" />
+    <button type="submit" class="btn btn-primary mt-2">Confirm completion</button>
+</form>

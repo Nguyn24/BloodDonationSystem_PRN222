@@ -85,7 +85,7 @@ namespace BloodDonationSystem
             app.UseAuthorization();
             app.ApplyMigrations();
             app.MapRazorPages();
-            app.MapHub<ArticlesHub>("/articlesHub");
+            app.MapHub<NotificationHub>("/notificationhub");
 
             app.Run();
         }

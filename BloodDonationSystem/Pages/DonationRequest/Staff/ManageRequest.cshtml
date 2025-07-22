@@ -1,0 +1,38 @@
+@page
+@using BusinessObject.Entities.Enum
+@model BloodDonationSystem.Pages.DonationRequest.Staff.ManageRequestsModel
+
+@{
+    ViewData["Title"] = "ManageRequest";
+    Layout = null;
+}
+
+<table class="table">
+    <thead><tr><th>User</th><th>Blood amount</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+    @foreach (var r in Model.Requests)
+    {
+        <tr>
+            <td>@($"{r.User.Name}")</td>
+            <td>@r.AmountBlood ml</td>
+            <td>@r.Status</td>
+            <td>
+                @if (r.Status == DonationRequestStatus.Pending)
+                {
+                    <form method="post" asp-page-handler="Confirm">
+                        <input type="hidden" name="requestId" value="@r.RequestId" />
+                        <button class="btn btn-success">Confirm</button>
+                    </form>
+                }
+                <form method="post" asp-page-handler="Fail">
+                    <input type="hidden" name="requestId" value="@r.RequestId" />
+                    <input type="text" name="reason" placeholder="Failure reason" class="form-control" />
+                    <button class="btn btn-warning mt-1">Mark as failed</button>
+                </form>
+                <a asp-page="Complete" asp-route-requestId="@r.RequestId" class="btn btn-info mt-1">Complete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+

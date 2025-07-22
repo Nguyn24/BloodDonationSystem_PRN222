@@ -5,5 +5,6 @@ namespace BloodDonationSystem.BLL.Services.DonationHistoryService;
 public interface IDonationHistoryService
 {
     Task<List<DonationsHistory>> GetDonationHistoryAsync();
+    Task<List<DonationsHistory>> GetMyDonationHistoryAsync();
 
 }

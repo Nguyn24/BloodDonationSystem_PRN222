@@ -1,15 +1,15 @@
 ﻿using BloodDonationSystem.DAL.DBContext;
-using BloodDonationSystem.DAL.Repositories.DonationHistoryRepo;
 using BloodDonationSystem.DAL.Repositories.Requests;
 using BusinessObject.Entities;
 using BusinessObject.Entities.Enum;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace BloodDonationSystem.DAL.Repositories.DonationRequestRepo;
 
 public class DonationRequestRepo : IDonationRequestRepo
 {
-    
     private readonly BloodDonationPrn222Context context;
     private readonly UserContext userContext;
 
@@ -47,6 +47,21 @@ public class DonationRequestRepo : IDonationRequestRepo
     {
         return await context.DonationRequests.ToListAsync();
     }
+
+    public async Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId)
+    {
+        return await context.DonationRequests
+            .FirstOrDefaultAsync(r => r.RequestId == requestId);
+    }
+    
+    public async Task<List<DonationRequest>> GetMyDonationRequestsAsync()
+    {
+        var userId = userContext.UserId;
+        return await context.DonationRequests
+            .Where(r => r.UserId == userId)
+            .ToListAsync();
+    }
+
 
     public async Task ConfirmDonationRequestAsync(Guid requestId)
     {
