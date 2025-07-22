@@ -3,6 +3,7 @@ using BloodDonationSystem.DAL.Repositories.Responses;
 using BloodDonationSystem.DAL.Repositories.UserRepo;
 using BusinessObject.Entities;
 using BusinessObject.Entities.Enum;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
 namespace BloodDonationSystem.BLL.Services.UserService;
@@ -10,6 +11,11 @@ namespace BloodDonationSystem.BLL.Services.UserService;
 public class UserService : IUserService
 {
     private readonly IUserRepo _userRepo;
+
+    public UserService(IUserRepo userRepo)
+    {
+        _userRepo = userRepo ?? throw new ArgumentNullException(nameof(userRepo));
+    }
 
     public Task<List<User>> GetUsersAsync()
         => _userRepo.GetUsersAsync();
@@ -22,9 +28,9 @@ public class UserService : IUserService
         return _userRepo.SearchAsync(keyword);
     }
 
-    public Task Register(RegisterRequest request)
+    public async Task Register(RegisterRequest request)
     {
-        return _userRepo.Register(request);
+        await _userRepo.Register(request); // <- MUST HAVE await
     }
 
     public Task<GetCurrentUserResponse> GetCurrentUserAsync() => _userRepo.GetCurrentUserAsync();

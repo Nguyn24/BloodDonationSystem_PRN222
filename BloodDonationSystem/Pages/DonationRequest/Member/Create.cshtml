@@ -1,0 +1,30 @@
+@page
+@model BloodDonationSystem.Pages.DonationRequest.Member.CreateDonationRequestModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+
+<!-- CreateDonationRequest.cshtml -->
+<form method="post">
+    <label>Select blood amount</label>
+    <select asp-for="Request.AmountBlood" class="form-control">
+        <option value="250">250ml</option>
+        <option value="350">350ml</option>
+        <option value="450">450ml</option>
+    </select>
+
+    <label>Donation date</label>
+    <input asp-for="Request.Date" type="date" class="form-control" />
+
+    <label>Contact phone</label>
+    <input asp-for="Request.Phone" class="form-control" />
+
+    <label>Note</label>
+    <textarea asp-for="Request.Note" class="form-control"></textarea>
+
+    <button type="submit" class="btn btn-primary mt-2">Submit request</button>
+</form>
+
+

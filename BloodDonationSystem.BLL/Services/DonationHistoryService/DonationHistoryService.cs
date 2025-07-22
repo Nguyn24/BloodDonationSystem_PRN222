@@ -12,4 +12,8 @@ public class DonationHistoryService : IDonationHistoryService
     {
         return await _donationHistoryRepo.GetDonationHistoryAsync();
     }
+    public async Task<List<DonationsHistory>> GetMyDonationHistoryAsync()
+    {
+        return await _donationHistoryRepo.GetMyDonationHistoryAsync();
+    }
 }

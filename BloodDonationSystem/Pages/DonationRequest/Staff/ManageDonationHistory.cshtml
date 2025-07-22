@@ -1,0 +1,21 @@
+@page
+@model BloodDonationSystem.Pages.DonationRequest.Staff.ManageDonationHistoryModel
+
+@{
+    Layout = null;
+}
+
+<table class="table">
+    <thead><tr><th>User</th><th>Date</th><th>Status</th><th>Confirmed By</th></tr></thead>
+    <tbody>
+    @foreach (var h in Model.History)
+    {
+        <tr>
+            <td>@h.UserId</td>
+            <td>@h.Date.ToUniversalTime()</td>
+            <td>@h.Status</td>
+            <td>@h.ConfirmedBy</td>
+        </tr>
+    }
+    </tbody>
+</table>

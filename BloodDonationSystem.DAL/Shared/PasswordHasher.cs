@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 
 namespace BloodDonationSystem.DAL.Shared;
 
-internal sealed class PasswordHasher 
+public sealed class PasswordHasher 
 {
     private const int SaltSize = 16;
     private const int HashSize = 32;
