@@ -1,0 +1,47 @@
+﻿@page
+@model BloodDonationSystem.Pages.Guest.BlogModel
+@{
+}
+
+@{
+    ViewData["Title"] = "Donate";
+    Layout = "_Layout";
+}
+
+@await Html.PartialAsync("Shared/Navbar/_NavbarGuest")
+
+@* _BannerGuestBlog *@
+<div class="container-fluid" style="min-height: 80vh; background-color: #ffd9e0; padding-top: 20px;">
+    <div class="row">
+        @* Hình bên trái *@
+        <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center" style="height: 100%;">
+            <img src="~/images/banner_blog_guest.png" alt="Banner" class="img-fluid floating-image" style="width: 90%; object-fit: contain;" />
+        </div>
+
+        @* Nội dung bên phải *@
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-start mt-4 px-4" style="height: 100%;">
+            <div style="max-width: 600px; margin-bottom: 10px;">
+                <h1 style="font-size: 60px; color: black; font-family: 'Oi', cursive;">BLOG'S</h1>
+                <h1 style="font-size: 90px; color: #bd0026; font-family: 'Oi', cursive;">HEMORA</h1>
+                <p style="font-size: 20px; color: #333;">
+                    From today, with Rosso, thanks to the personalized booking service,
+                    you can make an appointment in less than a click at a mobile or fixed collection center.
+                    <br />
+                    <span style="font-weight: bold;">Book Now!</span>
+                </p>
+            </div>
+
+            <div class="mt-4">
+                <a href="/Blog/Create">
+                    <button type="button" class="btn btn-outline-dark rounded-pill fw-bold px-4 py-2"
+                            onmouseover="this.style.transform='scale(0.95)'; this.style.backgroundColor='#a80022'; this.style.color='white'; this.style.borderColor='#a80022';"
+                            onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='white'; this.style.color='black'; this.style.borderColor='black';">
+                        Write your blog
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

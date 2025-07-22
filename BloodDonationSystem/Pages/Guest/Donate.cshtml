@@ -1,0 +1,276 @@
+﻿@page "/Guest/Donate"
+@model BloodDonationSystem.Pages.Guest.DonateModel
+@{
+}
+
+@{
+    ViewData["Title"] = "Donate";
+    Layout = "_Layout";
+}
+
+@await Html.PartialAsync("Shared/Navbar/_NavbarGuest")
+@* _BannerGuestDonate *@
+<div class="container-fluid" style="min-height: 80vh; background-color: #ffd9e0;padding-top: 30px; ">
+    <div class="row">
+        <!-- Image bên trái -->
+        <div class="d-none d-md-flex col-md-6 justify-content-center align-items-center">
+            <img src="/images/banner_donate_guest.png" alt="Banner" class="floating-image img-fluid" style="width: 80%; object-fit: contain;" />
+        </div>
+
+        <!-- Nội dung bên phải -->
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-center mt-4 px-4" style="margin-top: 40px;">
+            <div style="max-width: 600px; margin-bottom: 10px;">
+                <h1 style="font-size: 60px; color: black; font-family: 'Oi', cursive;">COME TO</h1>
+                <h1 style="font-size: 90px; color: #bd0026; font-family: 'Oi', cursive;">DONATE</h1>
+                <p style="font-size: 20px; color: #333;">
+                    From today, with Rosso, thanks to the personalized booking service,
+                    you can make an appointment in less than a click at a mobile or fixed collection center.
+                    <br />
+                    <span style="font-weight: bold;">Book Now!</span>
+                </p>
+            </div>
+
+            <div class="mt-4">
+                <a href="/Login">
+                    <button type="button" class="btn btn-outline-dark px-4 py-2 rounded-pill fw-bold"
+                            onmouseover="this.style.transform='scale(0.95)'; this.style.backgroundColor='#a80022'; this.style.borderColor='#a80022'; this.style.color='white';"
+                            onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='white'; this.style.borderColor='black'; this.style.color='black';">
+                        Register to donate blood
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* _BloodInformation *@
+<div style="background-color: #fff; border-radius: 50px; margin-bottom: 40px;">
+    <div class="row px-5 py-5">
+        <div class="col-md-6">
+            <h2 style="color: #bd0026; font-family: 'Oi', cursive; font-weight: normal; font-size: 50px;">
+                What type are your ?
+            </h2>
+            <p style="font-family: 'Raleway', sans-serif; font-size: 20px; margin-top: 40px;">
+                Blood types are genetically determined and cannot be changed. They are divided based on the presence of proteins called antigens. If incompatible red blood cells are transfused, the immune system reacts by producing antibodies against the foreign antigens.
+            </p>
+            <a href="#" class="btn btn-outline-dark rounded-pill mt-4 fw-bold px-4 py-2">
+                Download All Material
+            </a>
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+            <div class="row w-100">
+                <div class="col-md-3"><img src="~/images/AB-plus-type.png" alt="" class="img-fluid floating-image" /></div>
+                <div class="col-md-3"><img src="~/images/AB-minus-type.png" alt="" class="img-fluid floating-image" /></div>
+                <div class="col-md-3"><img src="~/images/A-plus-type.png" alt="" class="img-fluid floating-image" /></div>
+                <div class="col-md-3"><img src="~/images/types.png" alt="" class="img-fluid" /></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center px-4">
+        <h2 style="font-family: 'Oi', cursive; color: #bd0026; font-size: 50px;">How is blood used ?</h2>
+        <p style="font-family: 'Raleway', sans-serif; font-size: 20px;">
+            After donating blood, it is separated into its main components, including red blood cells, platelets, and plasma. Each component is used to treat specific medical conditions, and blood donation plays a vital role in saving lives and advancing medical science in a variety of settings.
+        </p>
+    </div>
+
+    <div style="margin: 40px 60px; background-color: #ffd8df; border-radius: 50px;">
+        <div class="row p-4 align-items-center">
+            <div class="col-md-5 d-none d-md-block">
+                <img src="~/images/types.png" class="img-fluid floating-image" alt="" />
+            </div>
+            <div class="col-md-7">
+                <div class="mb-3 d-flex align-items-start">
+                    <i class="bi bi-check-circle-fill text-danger fs-4 me-2"></i>
+                    <span class="fs-5">
+                        Whole Blood — For trauma, surgery, and anemia treatment.
+                    </span>
+                </div>
+                <div class="mb-3 d-flex align-items-start">
+                    <i class="bi bi-check-circle-fill text-danger fs-4 me-2"></i>
+                    <span class="fs-5">
+                        Platelets — For cancer, transplant, and clotting disorders.
+                    </span>
+                </div>
+                <div class="mb-3 d-flex align-items-start">
+                    <i class="bi bi-check-circle-fill text-danger fs-4 me-2"></i>
+                    <span class="fs-5">
+                        Plasma — For burns, shock, and bleeding disorders.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row px-5 py-5">
+        <div class="col-md-6">
+            <h2 style="color: #bd0026; font-family: 'Oi', cursive; font-weight: normal; font-size: 50px;">
+                And when blood cannot be used?
+            </h2>
+            <h5 style="font-family: 'Raleway', sans-serif; font-weight: 600;">
+                Donated blood that cannot be used for transfusion can be used for:
+            </h5>
+            <p style="font-family: 'Raleway', sans-serif; font-size: 20px;">
+                1. Quality controls in blood testing laboratories.<br />
+                2. Medical research for the study of diseases and the development of treatments.<br />
+                3. Production of blood products such as platelets, plasma, and clotting factors.
+            </p>
+            <p style="font-family: 'Raleway', sans-serif; font-weight: bold; font-size: 20px;">
+                This ensures the responsible and safe use of blood donations.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <img src="~/images/blood-used.png" alt="" class="img-fluid" />
+        </div>
+    </div>
+</div>
+
+@* _Process *@
+<div style="background-color: #a80022; padding: 40px; border-radius: 50px;">
+    <h2 style="font-family: 'Oi', cursive; font-weight: normal; font-size: 50px; color: white; margin-bottom: 40px;">
+        Donating has never been easier
+    </h2>
+
+    <div class="row g-4 px-5">
+        @{
+            var steps = new[] {
+                new { Id = 1, Title = "Register", Description = "Become a blood superhero with just one click! Join us to be part of our awesome community.", Image = "~/images/registration-step.png" },
+                new { Id = 2, Title = "Health Check", Description = "Have a one-on-one interview with a hematologist. Then, get a blood pressure test and a complete blood count to verify your eligibility. (Tests may vary at some collection centers based on their policies.)", Image = "~/images/interview-step.png" },
+                new { Id = 3, Title = "Donation", Description = "Donate your blood! It only takes 10 minutes of your time and a pinch of courage to make an extraordinary gesture.", Image = "~/images/donation-step.png" },
+                };
+        }
+
+        @foreach (var step in steps)
+        {
+            <div class="col-md-4">
+                <div style="display: flex; flex-direction: column; background-color: white; border-radius: 16px; padding: 24px;">
+                    <div class="text-center mb-3" style="background-color: #ffd8df; padding: 10px; border-radius: 10px;">
+                        <img src="@Url.Content(step.Image)" alt="@step.Title" class="img-fluid" />
+                    </div>
+                    <h4 style="font-family: 'Raleway', sans-serif; font-weight: bold;">
+                        @step.Id. @step.Title
+                    </h4>
+                    <p style="font-family: 'Raleway', sans-serif; font-size: 18px;">
+                        @step.Description
+                    </p>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+<div style="margin-top: 40px; padding: 20px; background-color: #fff;">
+    <div class="container py-4">
+        <h2 class="text-center mb-5" style="color: #bd0026; font-family: 'Oi', cursive; font-weight: normal; font-size: 50px;">
+            How the donation process works
+        </h2>
+
+        @{
+            var listItems = new[] {
+                "Get good sleep the night before.",
+                "Eat a light, healthy meal.",
+                "Stay hydrated with water.",
+                "Avoid fatty foods.",
+                };
+
+            string[] images = {
+                "~/images/before-donation.png",
+                "~/images/during-donation.png",
+                "~/images/after-donation.png"
+                };
+
+            string[] titles = { "Before", "During", "After" };
+            string[] colors = { "#ffd8df", "#e99bad", "#ffd8df" };
+        }
+
+        @for (int i = 0; i < 3; i++)
+        {
+            <div class="row align-items-center my-4">
+                @if (i % 2 == 0)
+                {
+                    <div class="col-md-4">
+                        <img src="@Url.Content(images[i])" class="img-fluid" alt="@titles[i]" />
+                    </div>
+                }
+
+                <div class="col-md-8">
+                    <div style="background-color: @colors[i]; border-radius: 50px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); padding: 30px;">
+                        <h3 style="color: @(i == 1 ? "#3a3a3a" : "#bd0026"); font-family: 'Raleway', sans-serif; font-weight: bold;">
+                            @titles[i]
+                        </h3>
+
+                        @foreach (var item in listItems)
+                        {
+                            <div class="d-flex align-items-center my-2 px-4">
+                                <i class="bi bi-check-circle-fill text-danger me-2" style="font-size: 24px;"></i>
+                                <span style="font-size: 20px; color: #3a3a3a;">
+                                    @item
+                                </span>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                @if (i % 2 == 1)
+                {
+                    <div class="col-md-4">
+                        <img src="@Url.Content(images[i])" class="img-fluid" alt="@titles[i]" />
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@* _Requirement *@
+
+@{
+    // Fake requirement list for example
+    var requirements = new[]
+    {
+        "You must be in good general health",
+        "You must be at least 17 years old",
+        "You must weigh at least 50kg",
+        "You must not have donated blood within the last 3 months"
+    };
+}
+
+<div class="row align-items-center" style="min-height: 90vh; padding: 20px;">
+    <div class="col-md-8 d-none d-md-block">
+        <h2 style="font-family: 'Oi', cursive; font-weight: normal; font-size: 50px; color: #bd0026;">
+            Want to donate but don't know where to start?
+        </h2>
+        <p style="font-size: 20px; font-family: 'Raleway', sans-serif;">
+            If you meet all eligibility requirements, discover the nearest blood
+            donation center <br />
+            and complete your registration to become a life-saving donor today!
+        </p>
+
+        <div class="mt-5 d-flex flex-column">
+            @foreach (var requirement in requirements)
+            {
+                <div class="mb-4 d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-2" style="color: red; font-size: 24px;"></i>
+                    <span style="font-size: 25px; color: #000; font-weight: bold;">
+                        @requirement
+                    </span>
+                </div>
+            }
+        </div>
+
+        <div class="mt-3">
+            <a href="#" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-bold" style="font-size: 15px;">
+                Discover all donation requirements
+            </a>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <img src="~/images/blood-information.png" alt="requirement donation" class="img-fluid" />
+    </div>
+</div>
+
+
+
+
