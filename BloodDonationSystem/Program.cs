@@ -28,7 +28,7 @@ namespace BloodDonationSystem
 
             // // 🔧 Register DB Context
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            Console.WriteLine($"Connection string: {connectionString}");
+            Console.WriteLine(">>> Connection string from config: " + connectionString); // thêm dòng này
             builder.Services.AddDbContext<BloodDonationPrn222Context>(options =>
                 options.UseSqlServer(connectionString));
             //
@@ -83,6 +83,7 @@ namespace BloodDonationSystem
             app.UseRouting();
             app.UseSession();
             app.UseAuthorization();
+            app.ApplyMigrations();
             app.MapRazorPages();
             app.MapHub<ArticlesHub>("/articlesHub");
 

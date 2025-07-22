@@ -1,5 +1,4 @@
-﻿
-@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
 @{
     var role = Context.Session.GetString("Role");
     var accountName = Context.Session.GetString("AccountName");
@@ -10,10 +9,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - News Articles</title>
+    <title>@ViewData["Title"] - Hemora</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oi&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap" rel="stylesheet" />
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -24,84 +25,30 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BloodDonationSystem.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom.css" />
 
     <style>
         body {
             font-family: 'Merriweather', serif;
-        }
-
-        .navbar-nav .nav-link {
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.4rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         main {
-            padding-top: 1.5rem;
-            padding-bottom: 2rem;
+            padding: 0;
         }
     </style>
 </head>
 <body>
-    <header class="border-bottom shadow-sm">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/BloodDonations">Blood Donation</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        
 
-                <div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Articles">Donation Book</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/NewsArticles">Blood Stored</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Categories">User Profile</a>
-                        </li>
-                    </ul>
 
-                    <ul class="navbar-nav">
-                        @if (!string.IsNullOrEmpty(role))
-                        {
-                            <li class="nav-item">
-                                <span class="nav-link">Hello, @accountName</span>
-                            </li>
-                            <li class="nav-item">
-                                <form method="post" asp-page="/Login" asp-page-handler="Logout">
-                                    <button type="submit" class="btn btn-link nav-link">Logout</button>
-                                </form>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-page="/Login">Login</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="container">
+    <div class="w-100">
         <main role="main">
             @RenderBody()
         </main>
     </div>
-
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

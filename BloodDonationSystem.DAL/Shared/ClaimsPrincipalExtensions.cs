@@ -2,7 +2,7 @@ using System.Security.Claims;
 
 namespace BloodDonationSystem.DAL.Shared;
 
-internal static class ClaimsPrincipalExtensions
+public static class ClaimsPrincipalExtensions
 {
     public static Guid GetUserId(this ClaimsPrincipal? principal)
     {

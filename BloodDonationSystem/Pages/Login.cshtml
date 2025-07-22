@@ -1,77 +1,97 @@
 ﻿@page
 @model BloodDonationSystem.Pages.LoginModel
 @{
-    ViewData["Title"] = "Login";
+ViewData["Title"] = "Login";
+Layout = null;
 }
 
+
 <style>
-    form {
-        max-width: 400px;
-        margin: 50px auto;
-        padding: 30px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    .login-container {
+        max-width: 420px;
+        margin: 80px auto;
+        padding: 40px;
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        font-family: 'Raleway', sans-serif;
     }
 
-    h2 {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 24px;
-        color: #333;
-    }
+        .login-container h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+            font-family: 'Oi', cursive;
+            color: #bd0026;
+            font-weight: normal;
+        }
 
     label {
-        font-weight: bold;
-        display: block;
+        font-weight: 600;
         margin-bottom: 6px;
-        color: #555;
+        display: block;
+        color: #333;
+        font-size: 14px;
     }
 
-    input[type="text"], input[type="password"] {
+    input[type="text"],
+    input[type="password"] {
         width: 100%;
-        padding: 10px 12px;
-        margin-bottom: 15px;
+        padding: 12px 14px;
+        margin-bottom: 20px;
         border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 14px;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+    input:focus {
+        border-color: #bd0026;
+        outline: none;
     }
 
     button[type="submit"] {
         width: 100%;
-        padding: 10px;
-        background-color: #007bff;
+        padding: 12px;
+        background-color: #bd0026;
         color: white;
         border: none;
         font-size: 16px;
-        border-radius: 4px;
+        border-radius: 50px;
+        font-weight: 600;
         cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
     }
 
-    button[type="submit"]:hover {
-        background-color: #0056b3;
-    }
+        button[type="submit"]:hover {
+            background-color: #a80022;
+            transform: scale(0.98);
+        }
 
-    p[style*="color:red"] {
+    .error-message {
+        color: red;
         text-align: center;
-        font-weight: bold;
+        font-weight: 600;
+        margin-top: 15px;
     }
 </style>
 
+<div class="login-container">
+    <h2>Login</h2>
 
-<h2>Login</h2>
+    <form method="post">
+        <label for="Email">Email</label>
+        <input asp-for="Email" id="Email" />
 
-<form method="post">
-    <label>Email:</label><br />
-    <input asp-for="Email" /><br /><br />
+        <label for="Password">Mật khẩu</label>
+        <input asp-for="Password" id="Password" type="password" />
 
-    <label>Mật khẩu:</label><br />
-    <input asp-for="Password" type="password" /><br /><br />
+        <button type="submit">Đăng nhập</button>
 
-    <button type="submit">Đăng nhập</button><br /><br />
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="error-message">@Model.ErrorMessage</p>
+        }
+    </form>
 
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <p style="color:red">@Model.ErrorMessage</p>
-    }
-</form>
+</div>

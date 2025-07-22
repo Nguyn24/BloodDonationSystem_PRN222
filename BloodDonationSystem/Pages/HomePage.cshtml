@@ -1,19 +1,33 @@
-@page
+@page "/Home"
 @model BloodDonationSystem.Pages.HomePage
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
 }
+@await Html.PartialAsync("Shared/Navbar/_NavbarGuest")
+@* @await Html.PartialAsync("Shared/Components/_BannerGuest") *@
 
-<!DOCTYPE html>
+<section style="background-color: #ffd8df; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 4rem 2rem; font-family: 'Poppins', sans-serif;">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center">
+                <img src="/images/banner1.png" alt="Banner" class="img-fluid floating-image" style="max-height: 450px;" />
+            </div>
+            <div class="col-md-6 text-md-start text-center mt-4 mt-md-0">
+                <h1 style="font-size: 3rem; font-family: 'Oi', cursive; font-weight: 400; color: black;">WELCOME TO</h1>
+                <h1 style="font-size: 5rem; font-family: 'Oi', cursive; font-weight: 400; color: #bd0026;">HEMORA</h1>
+                <p style="font-size: 1.1rem; max-width: 500px; margin: 1.5rem auto 1rem auto; color: #333;">
+                    Every second, someone, somewhere, is fighting for their life waiting for a miracle. That miracle could be you.
+                    Blood cannot be manufactured; it can only be given by heroes like you. One donation can save up to three lives.
+                </p>
+                <a href="/Login" class="btn btn-outline-dark rounded-pill px-4 py-2">Login or Register</a>
+            </div>
+        </div>
+    </div>
+</section>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
-</div>
-</body>
-</html>
+@await Html.PartialAsync("Shared/Components/_About")
+@await Html.PartialAsync("Shared/Components/_WhyDonation")
+@await Html.PartialAsync("Shared/Components/_Convenience")
+@await Html.PartialAsync("Shared/Components/_DoubtsSection")
