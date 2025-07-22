@@ -1,0 +1,92 @@
+﻿@page 
+@model BloodDonationSystem.Pages.BloodStoredPage.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodStored[0].Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodStored[0].LastUpdated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodStored[0].BloodType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.BloodStored) {
+        
+            <tr class="pag-row">
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BloodType.Description)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.StoredId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.StoredId">Details</a> |
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<nav>
+    <ul class="pagination" id="pagination"></ul>
+</nav>
+
+@section Scripts {
+    <script>
+        const rowsPerPage = 3;
+        const rows = document.querySelectorAll('.pag-row');
+        const pagination = document.getElementById('pagination');
+        const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+        function showPage(page) {
+            rows.forEach((row, i) => {
+                row.style.display = (i >= (page - 1) * rowsPerPage && i < page * rowsPerPage) ? '' : 'none';
+            });
+            // Highlight active page
+            Array.from(pagination.children).forEach((li, idx) => {
+                li.classList.toggle('active', idx === page - 1);
+            });
+        }
+
+        function setupPagination() {
+            pagination.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                li.className = 'page-item' + (i === 1 ? ' active' : '');
+                const a = document.createElement('a');
+                a.className = 'page-link';
+                a.href = '#';
+                a.textContent = i;
+                a.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showPage(i);
+                });
+                li.appendChild(a);
+                pagination.appendChild(li);
+            }
+        }
+
+        if (rows.length > 0) {
+            setupPagination();
+            showPage(1);
+        }
+    </script>
+}

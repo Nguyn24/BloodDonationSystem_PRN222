@@ -6,6 +6,10 @@ namespace BloodDonationSystem.BLL.Services.BloodTypeRepoService;
 public class BloodTypeService : IBloodTypeService
 {
     private readonly IBloodTypeRepo _bloodTypeRepo;
+    public BloodTypeService(IBloodTypeRepo bloodTypeRepo)
+    {
+        _bloodTypeRepo = bloodTypeRepo;
+    }
 
     public async Task<List<BloodType>> GetBloodTypeAsync()
     {

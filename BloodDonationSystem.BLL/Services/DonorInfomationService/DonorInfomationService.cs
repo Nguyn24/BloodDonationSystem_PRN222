@@ -9,6 +9,11 @@ public class DonorInfomationService : IDonorInfomationService
 {
     private readonly IDonorInformationRepo _donorInformationRepo;
 
+    public DonorInfomationService(IDonorInformationRepo donorInformationRepo)
+    {
+        _donorInformationRepo = donorInformationRepo;
+    }
+
     public async Task<List<DonorInformation>> GetDonorInfoAsync()
     {
         return await _donorInformationRepo.GetDonorInfoAsync();
@@ -27,5 +32,10 @@ public class DonorInfomationService : IDonorInfomationService
     public async Task DeleteDonorAsync(DonorInformation requestId)
     {
         await _donorInformationRepo.DeleteDonorAsync(requestId);
+    }
+
+    public async Task<DonorInformation> GetById(Guid id)
+    {
+        return await _donorInformationRepo.GetById(id);
     }
 }

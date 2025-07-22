@@ -9,7 +9,12 @@ public class DonorInformationRepo : IDonorInformationRepo
 {
     private readonly BloodDonationPrn222Context context;
     private readonly UserContext userContext;
-    
+
+    public DonorInformationRepo(BloodDonationPrn222Context _context)
+    {
+        context = _context;
+        //userContext = _userContext;
+    }
     public async Task<List<DonorInformation>> GetDonorInfoAsync()
     {
         return await context.DonorInformations.ToListAsync();
@@ -52,5 +57,12 @@ public class DonorInformationRepo : IDonorInformationRepo
     {
          context.DonorInformations.Remove(donor);
          await context.SaveChangesAsync();
+    }
+
+    public async Task<DonorInformation> GetById(Guid id)
+    {
+        return await context.DonorInformations
+            .Include(d => d.User)
+            .FirstOrDefaultAsync(d => d.DonorInfoId == id);
     }
 }

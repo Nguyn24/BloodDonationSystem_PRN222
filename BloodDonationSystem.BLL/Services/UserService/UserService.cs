@@ -11,6 +11,11 @@ public class UserService : IUserService
 {
     private readonly IUserRepo _userRepo;
 
+    public UserService(IUserRepo userRepo)
+    {
+        _userRepo = userRepo;
+    }
+
     public Task<List<User>> GetUsersAsync()
         => _userRepo.GetUsersAsync();
 
