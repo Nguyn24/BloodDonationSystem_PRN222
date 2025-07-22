@@ -24,7 +24,8 @@ public class DonationRequestRepo : IDonationRequestRepo
             UserId = user.UserId,
             BloodTypeId = bloodType.BloodTypeId,
             AmountBlood = request.AmountBlood,
-            RequestTime = DateTime.UtcNow,
+            RequestTime = request.Date,
+            ContactPhone = request.Phone,
             Note = request.Note,
             Status = DonationRequestStatus.Pending
         };

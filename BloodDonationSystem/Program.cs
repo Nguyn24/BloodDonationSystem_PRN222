@@ -83,8 +83,6 @@ namespace BloodDonationSystem
             app.UseRouting();
             app.UseSession();
             app.UseAuthorization();
-            app.ApplyMigrations();
-
             app.MapRazorPages();
             app.MapHub<ArticlesHub>("/articlesHub");
 
