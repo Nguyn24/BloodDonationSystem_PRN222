@@ -51,7 +51,10 @@ namespace BloodDonationSystem
             //
             // // ✅ Register FluentValidation
             // builder.Services.AddValidatorsFromAssemblyContaining<SystemAccountValidator>();
-
+            
+            builder.Services.AddScoped<UserContext>();
+            builder.Services.AddScoped<PasswordHasher>();
+            
             // ✅ Register Session
             builder.Services.AddSession(options =>
             {
@@ -63,7 +66,7 @@ namespace BloodDonationSystem
             // ✅ Razor Pages with default route override
             builder.Services.AddRazorPages(options =>
             {
-                options.Conventions.AddPageRoute("/Privacy", "");
+                options.Conventions.AddPageRoute("/Login", "");
             });
 
             builder.Services.AddSignalR();
