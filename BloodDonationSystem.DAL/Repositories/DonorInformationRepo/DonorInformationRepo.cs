@@ -9,7 +9,13 @@ public class DonorInformationRepo : IDonorInformationRepo
 {
     private readonly BloodDonationPrn222Context context;
     private readonly UserContext userContext;
-    
+
+    public DonorInformationRepo(BloodDonationPrn222Context context, UserContext userContext)
+    {
+        this.context = context;
+        this.userContext = userContext;
+    }
+
     public async Task<List<DonorInformation>> GetDonorInfoAsync()
     {
         return await context.DonorInformations.ToListAsync();

@@ -1,5 +1,8 @@
-﻿using BloodDonationSystem.BLL.Services.UserService;
+﻿using System.Security.Claims;
+using BloodDonationSystem.BLL.Services.UserService;
 using BusinessObject.Entities.Enum;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -46,6 +49,19 @@ namespace BloodDonationSystem.Pages
                 return Page();
             }
 
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
             HttpContext.Session.SetString("Role", user.Role.ToString());
             HttpContext.Session.SetString("UserId", user.UserId.ToString());
             HttpContext.Session.SetString("Email", user.Email);
@@ -56,9 +72,7 @@ namespace BloodDonationSystem.Pages
                 return RedirectToPage("/Admin");
             }
 
-
             return RedirectToPage("/HomePage");
-
         }
 
         public IActionResult OnPostLogout()

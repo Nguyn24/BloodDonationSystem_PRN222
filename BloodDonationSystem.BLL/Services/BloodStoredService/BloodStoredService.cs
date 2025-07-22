@@ -9,6 +9,11 @@ public class BloodStoredService : IBloodStoredService
 {
     private readonly IBloodStoredRepo _bloodStoredRepo;
 
+    public BloodStoredService(IBloodStoredRepo bloodStoredRepo)
+    {
+        _bloodStoredRepo = bloodStoredRepo;
+    }
+
     public async Task<List<BloodStored>> GetBloodStoredTypes()
     {
         return await _bloodStoredRepo.GetBloodStoredTypes();

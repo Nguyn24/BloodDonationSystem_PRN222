@@ -11,6 +11,12 @@ public class DonationHistoryRepo : IDonationHistoryRepo
     private readonly BloodDonationPrn222Context context;
     private readonly UserContext userContext;
 
+    public DonationHistoryRepo(BloodDonationPrn222Context context, UserContext userContext)
+    {
+        this.context = context;
+        this.userContext = userContext;
+    }
+
     public async Task<List<DonationsHistory>> GetDonationHistoryAsync()
     {
         return await context.DonationsHistories.ToListAsync();

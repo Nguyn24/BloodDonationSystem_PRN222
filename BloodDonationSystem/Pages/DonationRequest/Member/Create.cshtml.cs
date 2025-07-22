@@ -28,6 +28,6 @@ public class CreateDonationRequestModel : PageModel
         if (!ModelState.IsValid) return Page();
 
         await _service.CreateDonationRequestAsync(Request);
-        return RedirectToPage("/DonationRequests/MyRequests");
+        return RedirectToPage("/DonationRequest/Member/MyRequest");
     }
 }

@@ -13,10 +13,39 @@ public class DonationRequestRepo : IDonationRequestRepo
     private readonly BloodDonationPrn222Context context;
     private readonly UserContext userContext;
 
+    public DonationRequestRepo(
+        BloodDonationPrn222Context dbContext, 
+        UserContext userCtx)
+    {
+        context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        userContext = userCtx ?? throw new ArgumentNullException(nameof(userCtx));
+    }
+
     public async Task CreateDonationRequestAsync(CreateDonationRequest request)
     {
-        var user = await context.Users.FirstOrDefaultAsync(u => u.UserId == userContext.UserId);
+        if (context == null)
+            throw new Exception("Database context is not initialized.");
+
+        if (userContext == null)
+            throw new Exception("User context is not initialized.");
+
+        if (userContext.UserId == null)
+            throw new Exception("Cannot fetch user information. UserId is null.");
+
+        var user = await context.Users
+            .Include(u => u.BloodType)
+            .FirstOrDefaultAsync(u => u.UserId == userContext.UserId);
+
+        if (user == null)
+            throw new Exception($"User with ID '{userContext.UserId}' not found.");
+
+        if (user.BloodType == null)
+            throw new Exception($"User '{user.UserId}' does not have a BloodType associated.");
+
         var bloodType = await context.BloodTypes.FirstOrDefaultAsync(b => b.Name == user.BloodType.Name);
+
+        if (bloodType == null)
+            throw new Exception($"BloodType '{user.BloodType.Name}' not found in the database.");
 
         var donationRequest = new DonationRequest
         {

@@ -9,6 +9,11 @@ public class DonorInfomationService : IDonorInfomationService
 {
     private readonly IDonorInformationRepo _donorInformationRepo;
 
+    public DonorInfomationService(IDonorInformationRepo donorInformationRepo)
+    {
+        _donorInformationRepo = donorInformationRepo;
+    }
+
     public async Task<List<DonorInformation>> GetDonorInfoAsync()
     {
         return await _donorInformationRepo.GetDonorInfoAsync();
