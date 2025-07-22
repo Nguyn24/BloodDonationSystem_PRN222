@@ -17,6 +17,16 @@ public class DonationRequestService : IDonationRequestService
     {
         return await _donationRequestRepo.GetDonationRequestAsync();
     }
+    
+    public async Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId)
+    {
+        return await _donationRequestRepo.GetDonationRequestByIdAsync(requestId);
+    }
+    
+    public async Task<List<DonationRequest>> GetMyDonationRequestsAsync( )
+    {
+        return await _donationRequestRepo.GetMyDonationRequestsAsync();
+    }
 
     public async Task DeleteDonationRequestAsync(Guid requestId)
     {

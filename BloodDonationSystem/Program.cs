@@ -48,8 +48,6 @@ namespace BloodDonationSystem
             builder.Services.AddScoped<IDonationRequestService, DonationRequestService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IDonorInfomationService, DonorInfomationService>();
-            builder.Services.AddScoped<UserContext>();
-            builder.Services.AddScoped<PasswordHasher>();
             //
             // // ✅ Register FluentValidation
             // builder.Services.AddValidatorsFromAssemblyContaining<SystemAccountValidator>();
@@ -87,7 +85,7 @@ namespace BloodDonationSystem
             app.UseAuthorization();
             app.ApplyMigrations();
             app.MapRazorPages();
-            app.MapHub<ArticlesHub>("/articlesHub");
+            app.MapHub<NotificationHub>("/notificationhub");
 
             app.Run();
         }

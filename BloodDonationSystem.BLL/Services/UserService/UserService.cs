@@ -3,6 +3,7 @@ using BloodDonationSystem.DAL.Repositories.Responses;
 using BloodDonationSystem.DAL.Repositories.UserRepo;
 using BusinessObject.Entities;
 using BusinessObject.Entities.Enum;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
 namespace BloodDonationSystem.BLL.Services.UserService;

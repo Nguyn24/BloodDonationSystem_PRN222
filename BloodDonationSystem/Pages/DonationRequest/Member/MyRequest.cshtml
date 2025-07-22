@@ -1,0 +1,60 @@
+@page
+@using BusinessObject.Entities.Enum
+@model BloodDonationSystem.Pages.DonationRequest.Member.MyRequestsModel
+
+@{
+ViewData["Title"] = "MyRequest";
+Layout = null;
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Blood amount</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var r in Model.Requests)
+    {
+    <tr>
+        <td>@r.RequestTime.ToUniversalTime()</td>
+        <td>@r.AmountBlood ml</td>
+        <td>@r.Status</td>
+        <td>
+            @if (r.Status == DonationRequestStatus.Pending)
+            {
+            <form method="post" asp-page-handler="Cancel">
+                <input type="hidden" name="requestId" value="@r.RequestId" />
+                <button class="btn btn-danger">Cancel</button>
+            </form>
+            }
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+
+<script>
+    // Kết nối tới SignalR Hub, đường dẫn phải đúng với app.MapHub bên backend
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationhub")
+        .build();
+
+    // Lắng nghe sự kiện từ server
+    connection.on("ReceiveNotification", function (data) {
+        alert(data.message + "\nStatus: " + data.status);
+    });
+
+    // Khởi động kết nối
+    connection.start()
+        .then(function () {
+            console.log('SignalR connected!');
+        })
+        .catch(function (err) {
+            return console.error(err.toString());
+        });
+</script>
