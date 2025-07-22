@@ -9,6 +9,11 @@ public class BloodStoredRepo : IBloodStoredRepo
 {
     private readonly BloodDonationPrn222Context context;
 
+    public BloodStoredRepo(BloodDonationPrn222Context context)
+    {
+        this.context = context;
+    }
+
     public async Task<List<BloodStored>> GetBloodStoredTypes()
     {
         return await context.BloodStoreds.ToListAsync();
