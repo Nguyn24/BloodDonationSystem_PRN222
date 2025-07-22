@@ -56,13 +56,15 @@ namespace BloodDonationSystem.Pages
                 return RedirectToPage("/Admin");
             }
 
+
             return RedirectToPage("/HomePage");
+
         }
 
         public IActionResult OnPostLogout()
         {
             HttpContext.Session.Clear();
-            return RedirectToPage("/HomePage");
+            return RedirectToPage("/Home");
         }
     }
 }

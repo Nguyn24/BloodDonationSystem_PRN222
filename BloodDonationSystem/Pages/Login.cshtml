@@ -5,46 +5,93 @@ ViewData["Title"] = "Login";
 Layout = null;
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="~/css/SignInPage.css" rel="stylesheet" />
 
-<div class="signin-container">
-    <form method="post" class="loginForm">
-        <img class="loginTitle" src="/assets/banner2.png" alt="Blood Donation Logo" style="margin-bottom: 0;" />
+<style>
+    .login-container {
+        max-width: 420px;
+        margin: 80px auto;
+        padding: 40px;
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        font-family: 'Raleway', sans-serif;
+    }
 
-        <h3 class="text-center" style="margin-top: 0; margin-bottom: 32px">Sign-in</h3>
+        .login-container h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+            font-family: 'Oi', cursive;
+            color: #bd0026;
+            font-weight: normal;
+        }
 
-        <div class="mb-3 text-start">
-            <label asp-for="Email" class="form-label">Email</label>
-            <input asp-for="Email" class="form-control input-field" placeholder="Enter your email" autofocus />
-        </div>
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        color: #333;
+        font-size: 14px;
+    }
 
-        <div class="mb-3 text-start">
-            <label asp-for="Password" class="form-label">Password</label>
-            <input asp-for="Password" type="password" class="form-control input-field" placeholder="••••••" />
-        </div>
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 12px 14px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <input type="checkbox" name="RememberMe" /> Remember me
-            </div>
-        </div>
+    input:focus {
+        border-color: #bd0026;
+        outline: none;
+    }
 
-        <button type="submit" class="btn loginBtn">Sign In</button>
-        
+    button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background-color: #bd0026;
+        color: white;
+        border: none;
+        font-size: 16px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
 
-        <div class="mt-4 text-center">
-            Don't have an account?
-            <a href="/Register" class="fw-bold text-danger">Sign up</a>
-        </div>
+        button[type="submit"]:hover {
+            background-color: #a80022;
+            transform: scale(0.98);
+        }
+
+    .error-message {
+        color: red;
+        text-align: center;
+        font-weight: 600;
+        margin-top: 15px;
+    }
+</style>
+
+<div class="login-container">
+    <h2>Login</h2>
+
+    <form method="post">
+        <label for="Email">Email</label>
+        <input asp-for="Email" id="Email" />
+
+        <label for="Password">Mật khẩu</label>
+        <input asp-for="Password" id="Password" type="password" />
+
+        <button type="submit">Đăng nhập</button>
 
         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
         {
-        <p class="text-danger mt-3 text-center fw-bold">@Model.ErrorMessage</p>
+            <p class="error-message">@Model.ErrorMessage</p>
         }
     </form>
 
-    <ul class="background-login">
-        @for (int i = 0; i < 12; i++) { <li></li> }
-    </ul>
 </div>

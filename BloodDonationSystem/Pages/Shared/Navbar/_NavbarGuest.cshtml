@@ -1,0 +1,103 @@
+﻿<header class="navbar-wrapper">
+    <div class="header">
+        <div class="logo-title">
+            <a href="/" style="text-decoration: none;">
+                <h2 style="color: #bd0026; margin: 0; font-family: 'Oi', cursive; font-weight: normal;">HEMORA</h2>
+            </a>
+
+        </div>
+
+        <nav>
+            <ul class="nav d-flex align-items-center" style="gap: 32px; font-family: 'Raleway', sans-serif; font-weight: bold; font-size: 20px; margin: 0;">
+                <li class="nav-item">
+                    <a href="/Guest/Home" class="nav-link @(Context.Request.Path == "/" ? "active" : "")">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Guest/Donate" class="nav-link @(Context.Request.Path == "/Donate" ? "active" : "")">Donate</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Guest/Blog" class="nav-link @(Context.Request.Path == "/Blog" ? "active" : "")">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Guest/Contact" class="nav-link @(Context.Request.Path == "/Contact" ? "active" : "")">Contact</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="auth-section">
+            <a href="/Login">
+                <button class="btn btn-danger btn-login">Login</button>
+            </a>
+        </div>
+    </div>
+</header>
+
+<style>
+    .navbar-wrapper {
+        display: flex;
+        justify-content: center;
+        padding-top: 40px;
+        background-color: #ffd9e0;
+    }
+
+    .header {
+        background-color: #fff;
+        padding: 16px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 1px 2px 10px 10px rgba(10, 10, 10, 0.116);
+        border-radius: 50px;
+        width: 1200px;
+        height: 90px;
+    }
+
+    .logo-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: #333;
+        position: relative;
+        transition: color 0.2s ease;
+    }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #bd0026;
+        }
+
+            .nav-link.active::after {
+                content: "";
+                position: absolute;
+                bottom: -6px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 24px;
+                height: 3px;
+                background-color: #bd0026;
+                border-radius: 3px;
+            }
+
+    .btn-login {
+        background-color: #bd0026;
+        border-color: #bd0026;
+        color: white;
+        margin-right: 12px;
+        border-radius: 50px;
+        width: 100px;
+        height: 40px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-size: 15px;
+    }
+
+        .btn-login:hover {
+            background-color: #aa112f;
+            transform: scale(0.95);
+        }
+</style>
