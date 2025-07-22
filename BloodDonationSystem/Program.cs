@@ -28,7 +28,7 @@ namespace BloodDonationSystem
 
             // // 🔧 Register DB Context
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            Console.WriteLine($"Connection string: {connectionString}");
+            Console.WriteLine(">>> Connection string from config: " + connectionString); // thêm dòng này
             builder.Services.AddDbContext<BloodDonationPrn222Context>(options =>
                 options.UseSqlServer(connectionString));
             //
@@ -48,6 +48,8 @@ namespace BloodDonationSystem
             builder.Services.AddScoped<IDonationRequestService, DonationRequestService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IDonorInfomationService, DonorInfomationService>();
+            builder.Services.AddScoped<UserContext>();
+            builder.Services.AddScoped<PasswordHasher>();
             //
             // // ✅ Register FluentValidation
             // builder.Services.AddValidatorsFromAssemblyContaining<SystemAccountValidator>();
@@ -84,7 +86,6 @@ namespace BloodDonationSystem
             app.UseSession();
             app.UseAuthorization();
             app.ApplyMigrations();
-
             app.MapRazorPages();
             app.MapHub<ArticlesHub>("/articlesHub");
 
