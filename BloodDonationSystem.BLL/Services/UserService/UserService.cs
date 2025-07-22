@@ -11,6 +11,11 @@ public class UserService : IUserService
 {
     private readonly IUserRepo _userRepo;
 
+    public UserService(IUserRepo userRepo)
+    {
+        _userRepo = userRepo ?? throw new ArgumentNullException(nameof(userRepo));
+    }
+
     public Task<List<User>> GetUsersAsync()
         => _userRepo.GetUsersAsync();
 
@@ -22,9 +27,9 @@ public class UserService : IUserService
         return _userRepo.SearchAsync(keyword);
     }
 
-    public Task Register(RegisterRequest request)
+    public async Task Register(RegisterRequest request)
     {
-        return _userRepo.Register(request);
+        await _userRepo.Register(request); // <- MUST HAVE await
     }
 
     public Task<GetCurrentUserResponse> GetCurrentUserAsync() => _userRepo.GetCurrentUserAsync();
