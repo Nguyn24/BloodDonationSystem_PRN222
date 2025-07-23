@@ -135,6 +135,19 @@
             if (todayCell) {
                 todayCell.click();
             }
+    connection.on("ReceiveNotification", function (data) {
+        console.log("Received notification:", data);
+        alert(data.message + "\nStatus: " + data.status);
+    });
+
+
+    // Khởi động kết nối
+    connection.start()
+        .then(function () {
+            console.log('SignalR connected!');
+        })
+        .catch(function (err) {
+            return console.error(err.toString());
         });
     </script>
 }
