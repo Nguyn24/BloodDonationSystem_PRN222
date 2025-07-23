@@ -14,22 +14,39 @@ public class UserRepo : IUserRepo
     private readonly BloodDonationPrn222Context context;
     private readonly UserContext userContext;
     private readonly PasswordHasher passwordHasher;
-    
+    public UserRepo(BloodDonationPrn222Context context, UserContext userContext, PasswordHasher passwordHasher)
+    {
+        this.context = context;
+        this.userContext = userContext;
+        this.passwordHasher = passwordHasher;
+    }
+
     public async Task<User?> GetByEmailAndPasswordAsync(string email, string password)
     {
-        var user = context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+        if (user == null)
+            return null;
+
+        // ✅ Check password trước
+        if (!passwordHasher.Verify(password, user.Password))
+            return null;
+
+        // ✅ Nếu là Admin, có thể xử lý khác nếu cần
         if (user.Role == UserRole.Admin)
         {
             return new User
             {
-                Email = email,
+                Email = user.Email,
                 Name = "Admin",
                 Role = UserRole.Admin,
             };
         }
-        return await context.Users
-            .FirstOrDefaultAsync(a => a.Email == email && a.Password == password);
+
+        return user;
     }
+
+
     
     public async Task<List<User>> GetUsersAsync()
     {
@@ -145,8 +162,11 @@ public class UserRepo : IUserRepo
 
     public async Task Register(RegisterRequest request)
     {
+        
+
         var hashedPassword = passwordHasher.Hash(request.Password);
 
+        
         var user = new User
         {
             UserId = Guid.NewGuid(),
@@ -163,7 +183,7 @@ public class UserRepo : IUserRepo
         };
 
         context.Users.Add(user);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(); // <- Async OK
     }
 
 }

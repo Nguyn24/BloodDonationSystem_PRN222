@@ -8,8 +8,17 @@ public class DonationHistoryService : IDonationHistoryService
 {
     private readonly IDonationHistoryRepo _donationHistoryRepo;
 
+    public DonationHistoryService(IDonationHistoryRepo donationHistoryRepo)
+    {
+        _donationHistoryRepo = donationHistoryRepo;
+    }
+
     public async Task<List<DonationsHistory>> GetDonationHistoryAsync()
     {
         return await _donationHistoryRepo.GetDonationHistoryAsync();
+    }
+    public async Task<List<DonationsHistory>> GetMyDonationHistoryAsync()
+    {
+        return await _donationHistoryRepo.GetMyDonationHistoryAsync();
     }
 }

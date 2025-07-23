@@ -8,6 +8,10 @@ public class DonationRequestService : IDonationRequestService
 {
     private readonly IDonationRequestRepo _donationRequestRepo;
 
+    public DonationRequestService(IDonationRequestRepo donationRequestRepo)
+    {
+        _donationRequestRepo = donationRequestRepo ?? throw new ArgumentNullException(nameof(donationRequestRepo));
+    }
     public async Task CreateDonationRequestAsync(CreateDonationRequest request)
     {
         await _donationRequestRepo.CreateDonationRequestAsync(request);
@@ -16,6 +20,16 @@ public class DonationRequestService : IDonationRequestService
     public async Task<List<DonationRequest>> GetDonationRequestAsync()
     {
         return await _donationRequestRepo.GetDonationRequestAsync();
+    }
+    
+    public async Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId)
+    {
+        return await _donationRequestRepo.GetDonationRequestByIdAsync(requestId);
+    }
+    
+    public async Task<List<DonationRequest>> GetMyDonationRequestsAsync( )
+    {
+        return await _donationRequestRepo.GetMyDonationRequestsAsync();
     }
 
     public async Task DeleteDonationRequestAsync(Guid requestId)

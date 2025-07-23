@@ -15,6 +15,7 @@ using BloodDonationSystem.DAL.Repositories.UserRepo;
 using BloodDonationSystem.DAL.Shared;
 using BloodDonationSystem.SignalR.Hubs;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using DonationRequestRepo = BloodDonationSystem.DAL.Repositories.DonationRequestRepo.DonationRequestRepo;
 
@@ -28,7 +29,7 @@ namespace BloodDonationSystem
 
             // // 🔧 Register DB Context
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            Console.WriteLine($"Connection string: {connectionString}");
+            Console.WriteLine(">>> Connection string from config: " + connectionString); // thêm dòng này
             builder.Services.AddDbContext<BloodDonationPrn222Context>(options =>
                 options.UseSqlServer(connectionString));
             //
@@ -51,7 +52,10 @@ namespace BloodDonationSystem
             //
             // // ✅ Register FluentValidation
             // builder.Services.AddValidatorsFromAssemblyContaining<SystemAccountValidator>();
-
+            
+            builder.Services.AddScoped<UserContext>();
+            builder.Services.AddScoped<PasswordHasher>();
+            
             // ✅ Register Session
             builder.Services.AddSession(options =>
             {
@@ -60,12 +64,19 @@ namespace BloodDonationSystem
                 options.Cookie.IsEssential = true;
             });
 
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Login"; 
+                    options.AccessDeniedPath = "/AccessDenied"; 
+                });
+            
             // ✅ Razor Pages with default route override
             builder.Services.AddRazorPages(options =>
             {
-                options.Conventions.AddPageRoute("/Privacy", "");
+                options.Conventions.AddPageRoute("/Login", "");
             });
-
+            
             builder.Services.AddSignalR();
             builder.Services.AddHttpContextAccessor();
 
@@ -82,11 +93,11 @@ namespace BloodDonationSystem
 
             app.UseRouting();
             app.UseSession();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.ApplyMigrations();
-
             app.MapRazorPages();
-            app.MapHub<ArticlesHub>("/articlesHub");
+            app.MapHub<NotificationHub>("/notificationhub");
 
             app.Run();
         }

@@ -1,0 +1,91 @@
+﻿@page
+@model BloodDonationSystem.Pages.Guest.ContactModel
+@{
+}
+
+
+@{
+    ViewData["Title"] = "Donate";
+    Layout = "_Layout";
+}
+
+@await Html.PartialAsync("Shared/Navbar/_NavbarGuest")
+
+<div class="row" style="height: 80vh; margin-top: 20px;">
+    <!-- Hình bên trái -->
+    <div class="col-md-6 d-none d-md-flex" style="height: 100%; justify-content: center;">
+        <img src="~/images/banner_contacts_guest.png"
+             alt="Banner"
+             class="img-fluid floating-image"
+             style="width: 90%; object-fit: contain;" />
+    </div>
+
+    <!-- Nội dung bên phải -->
+    <div class="col-12 col-md-6 d-flex flex-column" style="height: 100%; margin-top: 40px;">
+        <div style="max-width: 600px; margin-bottom: 10px;">
+            <h1 style="font-size: 60px; color: black; font-family: 'Oi', cursive;">
+                CONTACT
+            </h1>
+            <h1 style="font-size: 90px; color: #bd0026; font-family: 'Oi', cursive;">
+                HEMORA
+            </h1>
+            <p style="font-size: 20px; color: #333;">
+                From today, with Rosso, thanks to the personalized booking service,
+                you can make an appointment in less than a click at a mobile or
+                fixed collection center.
+                <br />
+                <span style="font-weight: bold;">Book Now!</span>
+            </p>
+        </div>
+    </div>
+</div>
+
+@* _FormContacts *@
+<div class="container" style="margin-bottom: 40px;">
+    <div class="row bg-white p-5 rounded-5 shadow" style="margin: 0 auto;">
+        <div class="col-12 mb-4">
+            <h1 style="font-family: 'Oi', cursive; font-size: 50px; font-weight: normal; color: #bd0026;">
+                Contact us
+            </h1>
+            <p style="font-family: 'Raleway', sans-serif; font-size: 16px; line-height: 1.6; color: #333;">
+                Do you have questions about <strong>donations</strong> or do you want
+                to join our <strong>mission</strong>?<br />
+                Fill out the <strong>form</strong> and our team will answer you as
+                soon as possible.<br />
+                We are here for any request or information!<br />
+                <strong>Email:</strong> ciao@donarosso.it
+            </p>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" style="font-family: 'Raleway';">Name and Surname</label>
+                        <input type="text" name="Name" class="form-control form-control-lg" placeholder="Your full name" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" style="font-family: 'Raleway';">Email</label>
+                        <input type="email" name="Email" class="form-control form-control-lg" placeholder="E-mail" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" style="font-family: 'Raleway';">Your Question for Hemora</label>
+                        <textarea name="Message" rows="4" class="form-control form-control-lg" placeholder="Message" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold"
+                            onmouseover="this.style.transform='scale(0.95)'"
+                            onmouseout="this.style.transform='scale(1)'">
+                        Submit
+                    </button>
+                </form>
+            </div>
+
+            <div class="col-md-5 text-center">
+                <img src="~/images/requirement-donation.png" alt="requirement" style="width: 100%;" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>
