@@ -127,32 +127,35 @@ public class UserRepo : IUserRepo
             .FirstOrDefaultAsync(a => a.UserId == id);
     }
 
-    public async Task UpdateUserAsync(UpdateUserRequest request)
+    public async Task UpdateUserAsync(User user)
     {
-        var user = await context.Users
-            .Include(u => u.BloodType)
-            .FirstOrDefaultAsync(u => u.UserId == request.UserId);
-        
-        user.Name = request.FullName ?? user.Name;
-        user.Email = request.Email ?? user.Email;
-        user.DateOfBirth = request.DateOfBirth ?? user.DateOfBirth;
-        user.Gender = request.Gender ?? user.Gender;
-        user.Address = request.Address ?? user.Address;
-        user.Phone = request.Phone ?? user.Phone;
-        
-        user.Role = request.Role ?? user.Role;
-        user.Status = request.Status ?? user.Status;
-        user.IsDonor = request.IsDonor ?? user.IsDonor;
-        user.BloodType.Name = request.BloodType ?? user.BloodType.Name;
+        var existingUser = await context.Users.FindAsync(user.UserId);
+        if (existingUser == null)
+        {
+            throw new InvalidOperationException("User not found.");
+        }
 
+        // Cập nhật từng thuộc tính
+        existingUser.Name = user.Name;
+        existingUser.Email = user.Email;
+        existingUser.DateOfBirth = user.DateOfBirth;
+        existingUser.BloodTypeId = user.BloodTypeId;
+        existingUser.Gender = user.Gender;
+        existingUser.Address = user.Address;
+        existingUser.Phone = user.Phone;
+        existingUser.Role = user.Role;
+        existingUser.Status = user.Status;
+        existingUser.IsDonor = user.IsDonor;
+
+        context.Users.Update(existingUser); // không bắt buộc nếu entity đã được tracked
         await context.SaveChangesAsync();
-        
     }
 
-    public async Task DeleteUserAsync(User user)
+
+    public async Task DeleteUserAsync(Guid userID)
     {
         var result = await context.Users
-            .FirstOrDefaultAsync(a => a.UserId == user.UserId);
+            .FirstOrDefaultAsync(a => a.UserId == userID);
         result.Status = UserStatus.Inactive;
         await context.SaveChangesAsync();
     }
@@ -188,4 +191,11 @@ public class UserRepo : IUserRepo
         await context.SaveChangesAsync(); // <- Async OK
     }
 
+    public async Task<List<User>> GetUsersAsyncHavePagination()
+    {
+        return await context.Users
+        .Include(u => u.BloodType)
+        .Where(u => u.Status == UserStatus.Active)
+        .ToListAsync();
+    }
 }

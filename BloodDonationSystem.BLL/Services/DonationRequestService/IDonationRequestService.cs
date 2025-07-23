@@ -1,4 +1,5 @@
 ﻿using BloodDonationSystem.DAL.Repositories.Requests;
+using BusinessObject.DTO;
 using BusinessObject.Entities;
 
 namespace BloodDonationSystem.BLL.Services.DonationRequestService;
@@ -13,4 +14,6 @@ public interface IDonationRequestService
     Task ConfirmDonationRequestAsync(Guid requestId);
     Task CompleteDonationRequestAsync(Guid requestId, int amountBlood);
     Task UpdateFailedDonationRequestAsync(Guid requestId, string reason);
+
+    Task<RequestStatusDto> GetDonationRequestsByStatusAsync();
 }

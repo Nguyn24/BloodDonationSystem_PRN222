@@ -20,3 +20,34 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Blood Type Badge Styles */
+.blood-type-badge {
+    display: inline-block;
+    min-width: 44px;
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1em;
+    background: #fff;
+    border: 2px solid #eee;
+    text-align: center;
+    margin: 2px 0;
+    letter-spacing: 1px;
+}
+.blood-Oplus    { color: #e53935; border-color: #ffb3c6; }
+.blood-Ominus   { color: #6c3dd6; border-color: #bdb2ff; }
+.blood-Aplus    { color: #e53935; border-color: #ffb3c6; }
+.blood-Aminus   { color: #6c3dd6; border-color: #bdb2ff; }
+.blood-Bplus    { color: #1976d2; border-color: #b2d7ff; }
+.blood-Bminus   { color: #6c3dd6; border-color: #bdb2ff; }
+.blood-ABplus   { color: #388e3c; border-color: #caffbf; }
+.blood-ABminus  { color: #6c3dd6; border-color: #bdb2ff; }
+
+.card-selectable {
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.card-selectable.border-3 {
+  box-shadow: 0 0 0 4px #007bff33;
+}

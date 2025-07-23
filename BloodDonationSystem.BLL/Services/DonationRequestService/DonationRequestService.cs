@@ -1,5 +1,6 @@
 ﻿using BloodDonationSystem.DAL.Repositories.DonationRequestRepo;
 using BloodDonationSystem.DAL.Repositories.Requests;
+using BusinessObject.DTO;
 using BusinessObject.Entities;
 
 namespace BloodDonationSystem.BLL.Services.DonationRequestService;
@@ -50,5 +51,10 @@ public class DonationRequestService : IDonationRequestService
     public async Task UpdateFailedDonationRequestAsync(Guid requestId, string reason)
     {
         await _donationRequestRepo.UpdateFailedDonationRequestAsync(requestId, reason);
+    }
+
+    public async Task<RequestStatusDto> GetDonationRequestsByStatusAsync()
+    {
+        return await _donationRequestRepo.GetDonationRequestsByStatusAsync();
     }
 }
