@@ -2,19 +2,29 @@
 @model BloodDonationSystem.Pages.DonationRequest.Staff.ManageDonationHistoryModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Donation History";
+    Layout = "~/Pages/Shared/Staff/_StaffLayout.cshtml";
 }
 
-<table class="table">
-    <thead><tr><th>User</th><th>Date</th><th>Status</th><th>Confirmed By</th></tr></thead>
+<h2 class="mb-4">Donation History</h2>
+
+<table class="table table-bordered">
+    <thead class="table-light">
+    <tr>
+        <th>User</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Confirmed By</th>
+    </tr>
+    </thead>
     <tbody>
     @foreach (var h in Model.History)
     {
         <tr>
-            <td>@h.UserId</td>
-            <td>@h.Date.ToUniversalTime()</td>
+            <td>@h.User.Name</td>
+            <td>@h.Date.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
             <td>@h.Status</td>
-            <td>@h.ConfirmedBy</td>
+            <td>@h.ConfirmedByNavigation.Name</td>
         </tr>
     }
     </tbody>
