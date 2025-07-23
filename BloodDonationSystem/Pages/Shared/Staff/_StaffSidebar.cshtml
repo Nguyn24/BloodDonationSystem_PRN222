@@ -23,5 +23,17 @@
                 <i class="fas fa-heart me-2"></i> Donation History
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link @(current.Contains("/BloodStoredPage/Index") ? "active text-danger" : "")" asp-page="/BloodStoredPage/Index">
+                <i class="fas fa-heart me-2"></i> Blood Inventory
+            </a>
+        </li>
+        <li class="nav-item mt-auto">
+            <form method="post" asp-page="/Login" asp-page-handler="Logout" class="w-100">
+                <button type="submit" class="btn btn-link nav-link text-start text-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </button>
+            </form>
+        </li>
     </ul>
 </div>
