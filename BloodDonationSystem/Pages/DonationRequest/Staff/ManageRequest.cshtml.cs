@@ -18,8 +18,6 @@ public class ManageRequestsModel : PageModel
         _service = service;
         _hubContext = hubContext;
     }
-
-    public List<BusinessObject.Entities.DonationRequest> Requests { get; set; } = new();
     public List<string> BloodTypes { get; set; } = new();
 
     public int PendingCount { get; set; }
@@ -92,9 +90,7 @@ public class ManageRequestsModel : PageModel
             });
         return RedirectToPage();
     }
-
     
-
     public class FilterModel
     {
         public string? BloodType { get; set; }
