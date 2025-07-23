@@ -22,13 +22,14 @@ public class DonorInformationRepo : IDonorInformationRepo
 
     public async Task CreateDonorAsync(CreateDonorRequest request)
     {
-        var userId = userContext.UserId;
-        var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
-        
+        var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == request.UserId);
+        if (user == null)
+            throw new Exception("User not found");
+
         var donorInfo = new DonorInformation
         {
-            UserId = user.UserId,
             DonorInfoId = Guid.NewGuid(),
+            UserId = user.UserId,
             Weight = request.Weight,
             Height = request.Height,
             MedicalStatus = request.MedicalStatus,
@@ -38,6 +39,7 @@ public class DonorInformationRepo : IDonorInformationRepo
         await context.DonorInformations.AddAsync(donorInfo);
         await context.SaveChangesAsync();
     }
+
 
     public async Task UpdateDonorAsync(UpdateDonorRequest request)
     {

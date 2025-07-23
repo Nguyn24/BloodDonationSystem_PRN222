@@ -10,12 +10,7 @@ public class BloodTypeService : IBloodTypeService
     {
         _bloodTypeRepo = bloodTypeRepo;
     }
-
-    public BloodTypeService(IBloodTypeRepo bloodTypeRepo)
-    {
-        _bloodTypeRepo = bloodTypeRepo;
-    }
-
+    
     public async Task<List<BloodType>> GetBloodTypeAsync()
     {
         return await _bloodTypeRepo.GetBloodTypeAsync();
