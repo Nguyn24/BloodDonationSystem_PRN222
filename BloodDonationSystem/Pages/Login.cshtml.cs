@@ -71,10 +71,6 @@ namespace BloodDonationSystem.Pages
             {
                 return RedirectToPage("/Admin");
             }
-            if(user.Role == UserRole.Member)
-            {
-                return RedirectToPage("/Member/Home");
-            }
 
             return RedirectToPage("/HomePage");
         }
@@ -82,7 +78,7 @@ namespace BloodDonationSystem.Pages
         public IActionResult OnPostLogout()
         {
             HttpContext.Session.Clear();
-            return RedirectToPage("/Home");
+            return RedirectToPage("Guest/Home");
         }
     }
 }

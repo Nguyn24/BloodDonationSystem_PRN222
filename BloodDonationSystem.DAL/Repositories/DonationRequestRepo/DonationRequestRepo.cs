@@ -74,7 +74,10 @@ public class DonationRequestRepo : IDonationRequestRepo
 
     public async Task<List<DonationRequest>> GetDonationRequestAsync()
     {
-        return await context.DonationRequests.ToListAsync();
+        return await context.DonationRequests
+            .Include(r => r.User)
+            .Include(r => r.BloodType)
+            .ToListAsync();
     }
 
     public async Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId)
@@ -109,13 +112,21 @@ public class DonationRequestRepo : IDonationRequestRepo
     {
         var donationRequest = await context.DonationRequests
             .FirstOrDefaultAsync(r => r.RequestId == requestId);
-        
+
+        if (donationRequest == null)
+            throw new Exception($"DonationRequest with ID {requestId} not found.");
+
         var bloodStored = await context.BloodStoreds
             .FirstOrDefaultAsync(b => b.BloodTypeId == donationRequest.BloodTypeId);
-        
-        donationRequest.AmountBlood = amountBlood;
 
-        bloodStored.Quantity += donationRequest.AmountBlood;
+        if (bloodStored == null)
+            throw new Exception($"No BloodStored record found for BloodTypeId {donationRequest.BloodTypeId}");
+
+        // Cập nhật thông tin
+        donationRequest.AmountBlood = amountBlood;
+        donationRequest.Status = DonationRequestStatus.Completed;
+
+        bloodStored.Quantity += amountBlood;
         bloodStored.LastUpdated = DateTime.UtcNow;
 
         context.DonationsHistories.Add(new DonationsHistory
@@ -128,10 +139,9 @@ public class DonationRequestRepo : IDonationRequestRepo
             ConfirmedBy = userContext.UserId
         });
 
-        donationRequest.Status = DonationRequestStatus.Completed;
-
         await context.SaveChangesAsync();
     }
+
 
     public async Task UpdateFailedDonationRequestAsync(Guid requestId, string reason)
     {
@@ -142,4 +152,14 @@ public class DonationRequestRepo : IDonationRequestRepo
         donationRequest.Note = reason;
         await context.SaveChangesAsync();
     }
+    public async Task<List<DonationRequest>> GetRequestsByStatusAsync(DonationRequestStatus status)
+    {
+        return await context.DonationRequests
+            .Include(r => r.User)
+            .Include(r => r.BloodType)
+            .Where(r => r.Status == status)
+            .OrderByDescending(r => r.RequestTime)
+            .ToListAsync();
+    }
+
 }

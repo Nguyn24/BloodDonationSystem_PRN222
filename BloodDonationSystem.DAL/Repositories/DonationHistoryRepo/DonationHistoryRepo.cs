@@ -19,8 +19,12 @@ public class DonationHistoryRepo : IDonationHistoryRepo
 
     public async Task<List<DonationsHistory>> GetDonationHistoryAsync()
     {
-        return await context.DonationsHistories.ToListAsync();
+        return await context.DonationsHistories
+            .Include(dh => dh.User)
+            .Include(dh => dh.ConfirmedByNavigation)
+            .ToListAsync();
     }
+
     public async Task<List<DonationsHistory>> GetMyDonationHistoryAsync()
     {
         var userId = userContext.UserId;
