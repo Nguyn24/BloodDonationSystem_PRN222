@@ -1,30 +1,55 @@
-@page
+﻿@page "/Member/CreateDonationRequest"
 @model BloodDonationSystem.Pages.DonationRequest.Member.CreateDonationRequestModel
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = null;
+    ViewData["Title"] = "Create Donation Request";
+    Layout = "_Layout";
 }
 
-<!-- CreateDonationRequest.cshtml -->
-<form method="post">
-    <label>Select blood amount</label>
-    <select asp-for="Request.AmountBlood" class="form-control">
-        <option value="250">250ml</option>
-        <option value="350">350ml</option>
-        <option value="450">450ml</option>
-    </select>
+<section style="background-color: #fef2f4; font-family: 'Poppins', sans-serif; padding: 40px 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="p-5 border border-dark border-2 rounded-5 bg-white shadow-lg">
+                    <h2 class="text-center mb-4" style="font-family: 'Oi', cursive; font-size: 2.5rem; color: #bd0026;">
+                        Create Donation Request
+                    </h2>
 
-    <label>Donation date</label>
-    <input asp-for="Request.Date" type="date" class="form-control" />
+                    <form method="post" class="mt-4">
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Select Blood Amount</label>
+                            <select asp-for="Request.AmountBlood" class="form-select rounded-pill border-dark">
+                                <option value="250">250ml</option>
+                                <option value="350">350ml</option>
+                                <option value="450">450ml</option>
+                            </select>
+                        </div>
 
-    <label>Contact phone</label>
-    <input asp-for="Request.Phone" class="form-control" />
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Donation Date</label>
+                            <input asp-for="Request.Date" type="date" class="form-control rounded-pill border-dark" />
+                        </div>
 
-    <label>Note</label>
-    <textarea asp-for="Request.Note" class="form-control"></textarea>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Contact Phone</label>
+                            <input asp-for="Request.Phone" class="form-control rounded-pill border-dark" />
+                        </div>
 
-    <button type="submit" class="btn btn-primary mt-2">Submit request</button>
-</form>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Note</label>
+                            <textarea asp-for="Request.Note" class="form-control border-dark rounded-4" rows="4" placeholder="Add any additional notes here..."></textarea>
+                        </div>
 
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger px-5 py-2 rounded-pill fw-bold shadow-sm"
+                                    style="background-color: #bd0026; transition: transform 0.2s;">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
 
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
