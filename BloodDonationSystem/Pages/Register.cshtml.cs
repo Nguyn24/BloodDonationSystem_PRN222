@@ -54,7 +54,7 @@ namespace BloodDonationSystem.Pages
         {
             if (!ModelState.IsValid)
             {
-                ErrorMessage = "Vui lòng nh?p ??y ?? thông tin.";
+                ErrorMessage = "Enter your information";
                 return Page();
             }
 
@@ -76,7 +76,7 @@ namespace BloodDonationSystem.Pages
             }
             catch (Exception ex)
             {
-                ErrorMessage = "??ng ký th?t b?i: " + ex.Message;
+                ErrorMessage = "Sign up failed " + ex.Message;
                 return Page();
             }
         }
