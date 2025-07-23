@@ -10,12 +10,11 @@ public class DonorInformationRepo : IDonorInformationRepo
     private readonly BloodDonationPrn222Context context;
     private readonly UserContext userContext;
 
-    public DonorInformationRepo(BloodDonationPrn222Context context, UserContext userContext)
+    public DonorInformationRepo(BloodDonationPrn222Context _context)
     {
-        this.context = context;
-        this.userContext = userContext;
+        context = _context;
+        //userContext = _userContext;
     }
-
     public async Task<List<DonorInformation>> GetDonorInfoAsync()
     {
         return await context.DonorInformations.ToListAsync();
@@ -23,13 +22,14 @@ public class DonorInformationRepo : IDonorInformationRepo
 
     public async Task CreateDonorAsync(CreateDonorRequest request)
     {
-        var userId = userContext.UserId;
-        var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
-        
+        var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == request.UserId);
+        if (user == null)
+            throw new Exception("User not found");
+
         var donorInfo = new DonorInformation
         {
-            UserId = user.UserId,
             DonorInfoId = Guid.NewGuid(),
+            UserId = user.UserId,
             Weight = request.Weight,
             Height = request.Height,
             MedicalStatus = request.MedicalStatus,
@@ -39,6 +39,7 @@ public class DonorInformationRepo : IDonorInformationRepo
         await context.DonorInformations.AddAsync(donorInfo);
         await context.SaveChangesAsync();
     }
+
 
     public async Task UpdateDonorAsync(UpdateDonorRequest request)
     {
@@ -58,5 +59,12 @@ public class DonorInformationRepo : IDonorInformationRepo
     {
          context.DonorInformations.Remove(donor);
          await context.SaveChangesAsync();
+    }
+
+    public async Task<DonorInformation> GetById(Guid id)
+    {
+        return await context.DonorInformations
+            .Include(d => d.User)
+            .FirstOrDefaultAsync(d => d.DonorInfoId == id);
     }
 }

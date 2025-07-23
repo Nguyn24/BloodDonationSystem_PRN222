@@ -14,6 +14,11 @@ public class BloodStoredService : IBloodStoredService
         _bloodStoredRepo = bloodStoredRepo;
     }
 
+    public async Task<BloodStored> GetBloodStoredTypeById(Guid id)
+    {
+        return await _bloodStoredRepo.GetBloodStoredTypesById(id);
+    }
+
     public async Task<List<BloodStored>> GetBloodStoredTypes()
     {
         return await _bloodStoredRepo.GetBloodStoredTypes();
