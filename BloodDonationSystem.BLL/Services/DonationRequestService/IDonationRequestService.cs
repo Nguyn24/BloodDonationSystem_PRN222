@@ -10,7 +10,7 @@ public interface IDonationRequestService
     Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId);
     Task<List<DonationRequest>> GetMyDonationRequestsAsync( );
     Task DeleteDonationRequestAsync(Guid requestId);
-    Task ConfirmDonationRequestAsync(Guid requestId);
-    Task CompleteDonationRequestAsync(Guid requestId, int amountBlood);
-    Task UpdateFailedDonationRequestAsync(Guid requestId, string reason);
+    Task<DonationRequest> ConfirmDonationRequestAsync(Guid requestId);
+    Task<DonationRequest> CompleteDonationRequestAsync(Guid requestId, int amountBlood);
+    Task<DonationRequest> UpdateFailedDonationRequestAsync(Guid requestId, string reason);
 }

@@ -44,10 +44,11 @@ Layout = null;
         .withUrl("/notificationhub")
         .build();
 
-    // Lắng nghe sự kiện từ server
     connection.on("ReceiveNotification", function (data) {
+        console.log("Received notification:", data);
         alert(data.message + "\nStatus: " + data.status);
     });
+
 
     // Khởi động kết nối
     connection.start()

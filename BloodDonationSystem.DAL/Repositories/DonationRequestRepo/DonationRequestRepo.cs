@@ -92,7 +92,7 @@ public class DonationRequestRepo : IDonationRequestRepo
     }
 
 
-    public async Task ConfirmDonationRequestAsync(Guid requestId)
+    public async Task<DonationRequest> ConfirmDonationRequestAsync(Guid requestId)
     {
          var donationRequest = await context.DonationRequests
             .Include(x => x.User)
@@ -103,9 +103,10 @@ public class DonationRequestRepo : IDonationRequestRepo
             donationRequest.Status = DonationRequestStatus.Scheduled;
         }
         await context.SaveChangesAsync();
+        return donationRequest;
     }
 
-    public async Task CompleteDonationRequestAsync(Guid requestId, int amountBlood)
+    public async Task<DonationRequest> CompleteDonationRequestAsync(Guid requestId, int amountBlood)
     {
         var donationRequest = await context.DonationRequests
             .FirstOrDefaultAsync(r => r.RequestId == requestId);
@@ -131,9 +132,10 @@ public class DonationRequestRepo : IDonationRequestRepo
         donationRequest.Status = DonationRequestStatus.Completed;
 
         await context.SaveChangesAsync();
+        return donationRequest;
     }
 
-    public async Task UpdateFailedDonationRequestAsync(Guid requestId, string reason)
+    public async Task<DonationRequest> UpdateFailedDonationRequestAsync(Guid requestId, string reason)
     {
         var donationRequest = await context.DonationRequests
             .FirstOrDefaultAsync(r => r.RequestId == requestId);
@@ -141,5 +143,9 @@ public class DonationRequestRepo : IDonationRequestRepo
         donationRequest.Status = DonationRequestStatus.Failed;
         donationRequest.Note = reason;
         await context.SaveChangesAsync();
+        return donationRequest;
     }
+    
+ 
+
 }
