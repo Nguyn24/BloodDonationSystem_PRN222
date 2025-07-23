@@ -1,0 +1,165 @@
+﻿@page "/Member/Home"
+@model BloodDonationSystem.Pages.Member.HomeModel
+@{
+}
+
+
+
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+}
+@await Html.PartialAsync("Shared/Navbar/_NavbarMember")
+
+@* 
+BANNER SECTION
+ *@
+<section style="background-color: #ffd8df; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 4rem 2rem; font-family: 'Poppins', sans-serif;">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center">
+                <img src="/images/banner_header_guest.png" alt="Banner" class="img-fluid floating-image" style="max-height: 450px;" />
+            </div>
+            <div class="col-md-6 text-md-start text-center mt-4 mt-md-0">
+                <h1 style="font-size: 3rem; font-family: 'Oi', cursive; font-weight: 400; color: black;">WELCOME TO</h1>
+                <h1 style="font-size: 5rem; font-family: 'Oi', cursive; font-weight: 400; color: #bd0026;">HEMORA</h1>
+                <p style="font-size: 1.1rem; max-width: 500px; margin: 1.5rem auto 1rem auto; color: #333;">
+                    Every second, someone, somewhere, is fighting for their life waiting for a miracle. That miracle could be you.
+                    Blood cannot be manufactured; it can only be given by heroes like you. One donation can save up to three lives.
+                </p>
+                <a href="/Login" class="btn btn-outline-dark rounded-pill px-4 py-2">Login or Register</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ABOUT *@
+<section class="py-5" style="background-color: #fef2f4; font-family: 'Poppins', sans-serif;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="mb-4" style="color: #bd0026; font-family: 'Oi', cursive; font-size: 2.5rem;">About Hemora</h2>
+                <p class="fs-5">Hemora is a modern blood donation platform built to connect donors and receivers seamlessly. We are committed to saving lives through innovation, compassion, and community action.</p>
+                <ul class="list-unstyled fs-5">
+                    <li class="mb-2"><i class="bi bi-check2-circle text-danger me-2"></i> Trusted by thousands of donors</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-danger me-2"></i> Real-time donation tracking</li>
+                    <li><i class="bi bi-check2-circle text-danger me-2"></i> Partnered with certified hospitals</li>
+                </ul>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="/images/banner_donate_guest.png" class="img-fluid" alt="About Hemora" />
+            </div>
+        </div>
+    </div>
+</section>
+
+@* WHYDONATION *@
+<section class="py-5" style="background-color: #fff0f5; font-family: 'Poppins', sans-serif;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <img src="/images/banner_header_guest.png" class="img-fluid" alt="Why Donate" />
+            </div>
+            <div class="col-md-6">
+                <h2 class=" mb-4" style="color: #bd0026; font-family: 'Oi', cursive; font-size: 2.5rem;">Why Should You Donate?</h2>
+                <p class="lead mb-4">Donating blood is an act of kindness that saves lives. It's simple, safe, and makes a world of difference.</p>
+                <ul class="list-unstyled fs-5">
+                    <li class="mb-2"><i class="bi bi-heart-fill text-danger me-2"></i> Save up to 3 lives with 1 donation</li>
+                    <li class="mb-2"><i class="bi bi-clock-history text-danger me-2"></i> Takes less than an hour</li>
+                    <li><i class="bi bi-shield-check text-danger me-2"></i> Completely safe and secure</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* CONVENIENCE *@
+<div style="background-color: #fff0f5; padding:20px;">
+    <div style="background-color: #fff; border-radius: 50px;">
+        <div class="row row-cols-1 row-cols-md-2 g-4 px-5 py-5">
+            <div class="col d-flex align-items-start gap-3">
+                <i class="bi bi-check-circle-fill" style="color: #bd0026; font-size: 2.5rem;"></i>
+                <p class="fs-4 fw-bold m-0">Easy booking in under 24 hours</p>
+            </div>
+            <div class="col d-flex align-items-start gap-3">
+                <i class="bi bi-check-circle-fill" style="color: #bd0026; font-size: 2.5rem;"></i>
+                <p class="fs-4 fw-bold m-0">Automated reminders & helpful tips</p>
+            </div>
+            <div class="col d-flex align-items-start gap-3">
+                <i class="bi bi-check-circle-fill" style="color: #bd0026; font-size: 2.5rem;"></i>
+                <p class="fs-4 fw-bold m-0">Support from dedicated staff</p>
+            </div>
+            <div class="col d-flex align-items-start gap-3">
+                <i class="bi bi-check-circle-fill" style="color: #bd0026; font-size: 2.5rem;"></i>
+                <p class="fs-4 fw-bold m-0">Save lives with every donation</p>
+            </div>
+        </div>
+
+        <div class="px-4 px-md-5 pb-5">
+            <div class="text-center mb-5">
+                <h2 style="font-family: 'Oi', cursive; font-weight: normal; font-size: 50px; color: #bd0026;">For whom</h2>
+            </div>
+
+            <div class="row g-4 justify-content-center px-md-5">
+                <div class="col-12 col-md-4">
+                    <div class="h-100 p-4 border border-2 border-dark rounded-4 d-flex flex-column justify-content-between" style="min-height: 280px;">
+                        <h4 class="fw-bold">People</h4>
+                        <p style="font-family: 'Raleway', sans-serif; font-size: 18px;">
+                            Book your donation in less than 24 hours. Receive support, reminders, useful information.
+                        </p>
+                        <a href="#" class="btn btn-outline-dark rounded-pill mx-auto fw-semibold px-4 py-2">Find out how to donate</a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="h-100 p-4 border border-2 border-dark rounded-4 d-flex flex-column justify-content-between" style="min-height: 280px;">
+                        <h4 class="fw-bold">Associations and Hospitals</h4>
+                        <p style="font-family: 'Raleway', sans-serif; font-size: 18px;">
+                            We help you engage new donors and better manage bookings.
+                        </p>
+                        <a href="#" class="btn btn-outline-dark rounded-pill mx-auto fw-semibold px-4 py-2">Collaborate with us</a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="h-100 p-4 border border-2 border-dark rounded-4 d-flex flex-column justify-content-between" style="min-height: 280px;">
+                        <h4 class="fw-bold">Companies</h4>
+                        <p style="font-family: 'Raleway', sans-serif; font-size: 18px;">
+                            Custom projects to bring the culture of giving into the office.
+                        </p>
+                        <a href="#" class="btn btn-outline-dark rounded-pill mx-auto fw-semibold px-4 py-2">Become a Partner</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* DOUBTSECTION *@
+<section class="py-5" style="background-color: #fff0f6; font-family: 'Poppins', sans-serif;">
+    <div class="container">
+        <h2 class="text-center mb-5" style="color: #bd0026; font-family: 'Oi', cursive; font-size: 2.5rem;">Still Have Doubts?</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <h5 class="fw-bold">Is it safe to donate blood?</h5>
+                    <p>Yes, donating blood is a completely safe process. All equipment used is sterile and used only once.</p>
+                </div>
+                <div class="mb-4">
+                    <h5 class="fw-bold">How often can I donate?</h5>
+                    <p>You can donate whole blood every 56 days and platelets more frequently based on guidelines.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <h5 class="fw-bold">Will I feel weak after donating?</h5>
+                    <p>Most donors feel fine after donating. Staying hydrated and resting is recommended.</p>
+                </div>
+                <div class="mb-4">
+                    <h5 class="fw-bold">What if I have health conditions?</h5>
+                    <p>We recommend checking with your doctor. Our staff will guide you through eligibility.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

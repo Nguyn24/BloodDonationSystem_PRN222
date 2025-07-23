@@ -71,6 +71,10 @@ namespace BloodDonationSystem.Pages
             {
                 return RedirectToPage("/Admin");
             }
+            if(user.Role == UserRole.Member)
+            {
+                return RedirectToPage("/Member/Home");
+            }
 
             return RedirectToPage("/HomePage");
         }

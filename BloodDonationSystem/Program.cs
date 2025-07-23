@@ -74,7 +74,7 @@ namespace BloodDonationSystem
             // ✅ Razor Pages with default route override
             builder.Services.AddRazorPages(options =>
             {
-                options.Conventions.AddPageRoute("/Login", "");
+                options.Conventions.AddPageRoute("/Guest/Home", "");
             });
             
             builder.Services.AddSignalR();
