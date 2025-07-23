@@ -132,22 +132,36 @@ public class UserRepo : IUserRepo
         var user = await context.Users
             .Include(u => u.BloodType)
             .FirstOrDefaultAsync(u => u.UserId == request.UserId);
-        
+
+        if (user == null) throw new Exception("User not found");
+
         user.Name = request.FullName ?? user.Name;
         user.Email = request.Email ?? user.Email;
         user.DateOfBirth = request.DateOfBirth ?? user.DateOfBirth;
         user.Gender = request.Gender ?? user.Gender;
         user.Address = request.Address ?? user.Address;
         user.Phone = request.Phone ?? user.Phone;
-        
         user.Role = request.Role ?? user.Role;
         user.Status = request.Status ?? user.Status;
         user.IsDonor = request.IsDonor ?? user.IsDonor;
-        user.BloodType.Name = request.BloodType ?? user.BloodType.Name;
+
+        // Tìm BloodType theo name
+        if (!string.IsNullOrEmpty(request.BloodType))
+        {
+            var bloodType = await context.BloodTypes
+                .FirstOrDefaultAsync(bt => bt.Name == request.BloodType);
+
+            if (bloodType == null)
+            {
+                throw new Exception($"BloodType '{request.BloodType}' not found.");
+            }
+
+            user.BloodTypeId = bloodType.BloodTypeId;
+        }
 
         await context.SaveChangesAsync();
-        
     }
+
 
     public async Task DeleteUserAsync(User user)
     {
