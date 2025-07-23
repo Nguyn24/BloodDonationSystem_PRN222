@@ -1,5 +1,6 @@
 using BloodDonationSystem.BLL.Services.DonationRequestService;
 using BloodDonationSystem.SignalR.Hubs;
+using BusinessObject.Entities.Enum;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -18,15 +19,17 @@ public class CompleteModel : PageModel
         _hubContext = hubContext;
     }
 
-    [BindProperty(SupportsGet = true)]
+    [BindProperty]
     public Guid RequestId { get; set; }
 
     [BindProperty]
     public int AmountBlood { get; set; }
 
+    public List<BusinessObject.Entities.DonationRequest> ScheduledRequests { get; set; }
+
     public async Task OnGetAsync()
     {
-        Request = await _service.GetDonationRequestByIdAsync(RequestId);
+        ScheduledRequests = await _service.GetRequestsByStatusAsync(DonationRequestStatus.Scheduled);
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -38,6 +41,6 @@ public class CompleteModel : PageModel
                 message = "Your donation has been completed successfully.",
                 status = donationRequest.Status.ToString()
             });
-        return RedirectToPage("ManageRequest");
+        return RedirectToPage();
     }
 }

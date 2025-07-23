@@ -55,4 +55,8 @@ public class DonationRequestService : IDonationRequestService
     {
         return await _donationRequestRepo.UpdateFailedDonationRequestAsync(requestId, reason);
     }
+    public async Task<List<DonationRequest>> GetRequestsByStatusAsync(DonationRequestStatus status)
+    {
+        return await _donationRequestRepo.GetRequestsByStatusAsync(status);
+    }
 }

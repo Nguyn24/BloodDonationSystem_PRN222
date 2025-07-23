@@ -1,49 +1,140 @@
-@page
-@using BusinessObject.Entities.Enum
+@page "/Member/MyRequest"
 @model BloodDonationSystem.Pages.DonationRequest.Member.MyRequestsModel
+@using BusinessObject.Entities.Enum
 
 @{
-ViewData["Title"] = "MyRequest";
-Layout = null;
+    ViewData["Title"] = "My Requests";
+    Layout = "_Layout";
+
+    var today = DateTime.Today;
+    var startDate = new DateTime(today.Year, today.Month, 1);
+    var firstDayOfWeek = (int)startDate.DayOfWeek; // Sunday = 0
+    var totalDays = DateTime.DaysInMonth(today.Year, today.Month);
 }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Date</th>
-        <th>Blood amount</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var r in Model.Requests)
-    {
-    <tr>
-        <td>@r.RequestTime.ToUniversalTime()</td>
-        <td>@r.AmountBlood ml</td>
-        <td>@r.Status</td>
-        <td>
-            @if (r.Status == DonationRequestStatus.Pending)
+<section class="container py-5" style="font-family: 'Poppins', sans-serif;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="color: #bd0026; font-family: 'Oi'; font-weight: normal;">
+            My Donation Requests - @today.ToString("MMMM yyyy")
+        </h2>
+        <a href="/Member/Home" class="btn btn-outline-danger rounded-pill px-4">Back to Home</a>
+    </div>
+
+    <!-- Calendar UI -->
+    <div class="calendar-container rounded-4 shadow-sm p-4 bg-white mb-4">
+        <div class="calendar-grid">
+            <div class="day-header">Su</div>
+            <div class="day-header">Mo</div>
+            <div class="day-header">Tu</div>
+            <div class="day-header">We</div>
+            <div class="day-header">Th</div>
+            <div class="day-header">Fr</div>
+            <div class="day-header">Sa</div>
+
+            @for (int i = 0; i < firstDayOfWeek; i++)
             {
-            <form method="post" asp-page-handler="Cancel">
-                <input type="hidden" name="requestId" value="@r.RequestId" />
-                <button class="btn btn-danger">Cancel</button>
-            </form>
+                <div class="day-cell empty"></div>
             }
-        </td>
-    </tr>
+
+            @for (int day = 1; day <= totalDays; day++)
+            {
+                var date = new DateTime(today.Year, today.Month, day);
+                var dateStr = date.ToString("yyyy-MM-dd");
+                var hasRequest = Model.RequestsByDate.ContainsKey(date);
+                var requests = hasRequest ? Model.RequestsByDate[date] : null;
+                var status = hasRequest ? requests.First().Status.ToString().ToLower() : "";
+
+                <div class="day-cell @(hasRequest ? $"has-request status-{status}" : "")"
+                     data-date="@dateStr"
+                     title="@(hasRequest ? $"{requests.Count} request(s)" : "")">
+                    <div class="date-number">@day</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Request List Display -->
+    @foreach (var kvp in Model.RequestsByDate.OrderBy(k => k.Key))
+    {
+        var dateStr = kvp.Key.ToString("yyyy-MM-dd");
+        <div id="requests-@dateStr" class="request-table" style="display: none;">
+            <h5 class="text-danger fw-semibold mb-3">Requests for @kvp.Key.ToString("dd/MM/yyyy")</h5>
+            <div class="table-responsive rounded-4 shadow-sm">
+                <table class="table table-hover align-middle">
+                    <thead class="table-danger text-center">
+                        <tr style="font-size: 16px;">
+                            <th>Time</th>
+                            <th>Blood Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in kvp.Value)
+                        {
+                            var statusColor = r.Status switch
+                            {
+                                DonationRequestStatus.Pending => "secondary",
+                                DonationRequestStatus.Completed => "success",
+                                DonationRequestStatus.Cancelled => "danger",
+                                DonationRequestStatus.Failed => "dark",
+                                DonationRequestStatus.Scheduled => "warning",
+                                _ => "dark"
+                            };
+
+                            <tr class="text-center" style="font-size: 15px;">
+                                <td>@r.RequestTime.ToLocalTime().ToString("HH:mm")</td>
+                                <td>@r.AmountBlood ml</td>
+                                <td>
+                                    <span class="badge bg-@statusColor text-uppercase px-3 py-2" style="font-size: 13px;">
+                                        @r.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (r.Status == DonationRequestStatus.Pending)
+                                    {
+                                        <form method="post" asp-page-handler="Cancel">
+                                            <input type="hidden" name="requestId" value="@r.RequestId" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                                                Cancel
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     }
-    </tbody>
-</table>
+</section>
 
-<script>
-    // Kết nối tới SignalR Hub, đường dẫn phải đúng với app.MapHub bên backend
-    const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/notificationhub")
-        .build();
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cells = document.querySelectorAll('.calendar-grid .day-cell');
+            cells.forEach(cell => {
+                cell.addEventListener('click', function () {
+                    const selectedDate = this.getAttribute('data-date');
+                    document.querySelectorAll('.calendar-grid .day-cell').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
 
+                    document.querySelectorAll('.request-table').forEach(t => t.style.display = 'none');
+                    const table = document.querySelector(`#requests-${selectedDate}`);
+                    if (table) table.style.display = 'block';
+                });
+            });
+
+            const today = new Date().toISOString().split('T')[0];
+            const todayCell = document.querySelector(`.calendar-grid .day-cell[data-date="${today}"]`);
+            if (todayCell) {
+                todayCell.click();
+            }
     connection.on("ReceiveNotification", function (data) {
         console.log("Received notification:", data);
         alert(data.message + "\nStatus: " + data.status);
@@ -58,4 +149,56 @@ Layout = null;
         .catch(function (err) {
             return console.error(err.toString());
         });
-</script>
+    </script>
+}
+
+<style>
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .day-header {
+        text-align: center;
+        font-weight: 600;
+        color: #bd0026;
+    }
+
+    .day-cell {
+        min-height: 80px;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        position: relative;
+        text-align: center;
+        padding: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .day-cell .date-number {
+            font-weight: 600;
+        }
+
+        .day-cell.has-request {
+            background-color: #ffe5ea;
+            border: 2px solid #bd0026;
+        }
+
+        .day-cell.selected {
+            outline: 3px solid #bd0026;
+        }
+
+    .status-pending {
+        background-color: #fff3cd !important;
+    }
+
+    .status-completed {
+        background-color: #d1e7dd !important;
+    }
+
+    .status-cancelled {
+        background-color: #f8d7da !important;
+    }
+</style>

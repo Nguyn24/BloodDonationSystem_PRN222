@@ -1,0 +1,39 @@
+﻿@{
+    var current = Context.Request.Path.Value?.ToLower();
+}
+
+<div class="p-4">
+    <h4 class="text-danger text-center">HEMORA</h4>
+    <p class="text-center text-muted small">Blood Donation System</p>
+
+    <ul class="nav flex-column mt-4">
+
+        <li class="nav-item">
+            <a class="nav-link @(current.Contains("/DonationRequest/Staff/ManageRequests") ? "active text-danger" : "")" asp-page="/DonationRequest/Staff/ManageRequest">
+                <i class="fas fa-file-alt me-2"></i> Donation Requests
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(current.Contains("/DonationRequest/Staff/CompleteRequest") ? "active text-danger" : "")" asp-page="/DonationRequest/Staff/CompleteRequest">
+                <i class="fas fa-calendar-alt me-2"></i> Donation Schedule
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(current.Contains("/DonationRequest/Staff/ManageDonationHistory") ? "active text-danger" : "")" asp-page="/DonationRequest/Staff/ManageDonationHistory">
+                <i class="fas fa-heart me-2"></i> Donation History
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(current.Contains("/BloodStoredPage/Index") ? "active text-danger" : "")" asp-page="/BloodStoredPage/Index">
+                <i class="fas fa-heart me-2"></i> Blood Inventory
+            </a>
+        </li>
+        <li class="nav-item mt-auto">
+            <form method="post" asp-page="/Login" asp-page-handler="Logout" class="w-100">
+                <button type="submit" class="btn btn-link nav-link text-start text-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>
