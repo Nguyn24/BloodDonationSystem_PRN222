@@ -11,4 +11,6 @@ public interface IDonorInformationRepo
     Task UpdateDonorAsync(UpdateDonorRequest request);
 
     Task DeleteDonorAsync(DonorInformation donor);
+
+    Task<DonorInformation> GetById(Guid id);
 }

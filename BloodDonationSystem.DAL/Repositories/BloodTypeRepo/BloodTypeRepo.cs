@@ -8,11 +8,10 @@ public class BloodTypeRepo : IBloodTypeRepo
 {
     private readonly BloodDonationPrn222Context context;
 
-    public BloodTypeRepo(BloodDonationPrn222Context context)
+    public BloodTypeRepo(BloodDonationPrn222Context _context)
     {
-        this.context = context;
+        context = _context;
     }
-
     public async Task<List<BloodType>> GetBloodTypeAsync()
     {
         return await context.BloodTypes.ToListAsync();

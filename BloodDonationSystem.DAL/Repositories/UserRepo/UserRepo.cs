@@ -44,13 +44,15 @@ public class UserRepo : IUserRepo
         }
 
         return user;
-    }
+    }   
 
 
     
     public async Task<List<User>> GetUsersAsync()
     {
-        return await context.Users.ToListAsync();
+        return await context.Users
+            .Select(u => new User { UserId = u.UserId, Name = u.Name })
+            .ToListAsync();
     }
 
     public async Task<GetCurrentUserResponse> GetCurrentUserAsync()

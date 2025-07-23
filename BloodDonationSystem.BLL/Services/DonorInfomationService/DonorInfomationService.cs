@@ -33,4 +33,9 @@ public class DonorInfomationService : IDonorInfomationService
     {
         await _donorInformationRepo.DeleteDonorAsync(requestId);
     }
+
+    public async Task<DonorInformation> GetById(Guid id)
+    {
+        return await _donorInformationRepo.GetById(id);
+    }
 }
