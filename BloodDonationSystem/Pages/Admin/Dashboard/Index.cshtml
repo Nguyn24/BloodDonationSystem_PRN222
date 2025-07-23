@@ -1,0 +1,96 @@
+﻿@page
+@model BloodDonationSystem.Pages.Admin.Dashboard.IndexModel
+@{
+    Layout = "~/Pages/Admin/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Dashboard";
+    var requestStatusLabels = Model.RequestByStatus.Select(x => x.Status).ToList();
+    var requestStatusCounts = Model.RequestByStatus.Select(x => x.Count).ToList();
+    var historyCount = Model.MonthlyDonations.Select(x => x.Count).ToList();
+    var historyLabels = Model.MonthlyDonations.Select(x => x.Month).ToList();
+}
+<h2>Welcome to Admin Dashboard</h2>
+
+<div class="row my-4">
+    <div class="col-md-6">
+        <div class="card text-center shadow card-selectable" onclick="showChart('requests')">
+            <div class="card-body">
+                <h5 class="card-title">Donation Requests</h5>
+                <p class="display-4 text-danger fw-bold">@Model.RequestCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">  
+        <div class="card text-center shadow card-selectable" onclick="showChart('history')">
+            <div class="card-body">
+                <h5 class="card-title">Donation History</h5>
+                <p class="display-4 text-primary fw-bold">@Model.HistoryCount</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<canvas id="myChart" width="400" height="200"></canvas>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let chart;
+let chartType = 'requests';
+
+// Dữ liệu thực tế từ backend
+const requestStatusLabels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(requestStatusLabels));
+const requestStatusCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(requestStatusCounts));
+const historyCount = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(historyCount));
+const historyLabels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(historyLabels));
+
+function showChart(type) {
+    chartType = type;
+    updateChart();
+    // Highlight card
+    document.querySelectorAll('.card-selectable').forEach(card => card.classList.remove('border-primary', 'border-danger', 'border-success', 'border-3'));
+    if(type === 'requests') document.querySelectorAll('.card-selectable')[0].classList.add('border-primary', 'border-3');
+    if(type === 'history')  document.querySelectorAll('.card-selectable')[1].classList.add('border-danger', 'border-3');
+}
+
+function updateChart() {
+    let data, label, bgColor;
+    if(chartType === 'requests') {
+        label = 'Donation Requests by Status';
+        data = requestStatusCounts;
+        bgColor = ['#ff6384', '#ffcd56', '#36a2eb'];
+        chart.data.labels = requestStatusLabels;
+    } else if (chartType === 'history') {
+    label = 'Donation History by Month';
+    data = historyCount;
+    bgColor = ['#36a2eb'];
+            chart.data.labels = historyLabels;
+    } 
+    chart.data.datasets[0].label = label;
+    chart.data.datasets[0].data = data;
+    chart.data.datasets[0].backgroundColor = bgColor;
+    chart.update();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('myChart').getContext('2d');
+    chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: requestStatusLabels,
+            datasets: [{
+                label: 'Donation Requests by Status',
+                data: requestStatusCounts,
+                backgroundColor: ['#ff6384', '#ffcd56', '#36a2eb']
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+    showChart('requests'); // Mặc định chọn requests
+});
+</script>
+}
+
+
+

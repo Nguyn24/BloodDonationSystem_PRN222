@@ -17,11 +17,11 @@ public class UserService : IUserService
         _userRepo = userRepo ?? throw new ArgumentNullException(nameof(userRepo));
     }
 
-    public Task<List<User>> GetUsersAsync()
-        => _userRepo.GetUsersAsync();
+    public async Task<List<User>> GetUsersAsync()
+        => await _userRepo.GetUsersAsync();
 
-    public Task<User?> GetByEmailAndPasswordAsync(string email, string password)
-        => _userRepo.GetByEmailAndPasswordAsync(email, password);
+    public async Task<User?> GetByEmailAndPasswordAsync(string email, string password)
+        => await _userRepo.GetByEmailAndPasswordAsync(email, password);
 
     public Task<List<User>> SearchAsync(string keyword)
     {
@@ -45,14 +45,14 @@ public class UserService : IUserService
         await _userRepo.CreateUserAsync(request);
     }
 
-    public async Task UpdateUserAsync(UpdateUserRequest request)
+    public async Task UpdateUserAsync(User user)
     {
-        await _userRepo.UpdateUserAsync(request);
+        await _userRepo.UpdateUserAsync(user);
     }
 
-    public async Task DeleteUserAsync(User user)
+    public async Task DeleteUserAsync(Guid userID)
     {
-        await _userRepo.DeleteUserAsync(user);
+        await _userRepo.DeleteUserAsync(userID);
     }
 
     public async Task<User?> GetUserByIdAsync(Guid id)
@@ -63,5 +63,10 @@ public class UserService : IUserService
     public async Task<List<User>> GetUserByNameAsync(string userName)
     {
         return await _userRepo.GetUserByNameAsync(userName);
+    }
+
+    public async Task<List<User>> GetUsersAsyncHavePagination()
+    {
+        return await _userRepo.GetUsersAsyncHavePagination();
     }
 }

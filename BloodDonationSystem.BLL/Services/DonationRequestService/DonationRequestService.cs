@@ -1,6 +1,7 @@
 ﻿using BloodDonationSystem.DAL.DBContext;
 using BloodDonationSystem.DAL.Repositories.DonationRequestRepo;
 using BloodDonationSystem.DAL.Repositories.Requests;
+using BusinessObject.DTO;
 using BusinessObject.Entities;
 using BusinessObject.Entities.Enum;
 
@@ -58,5 +59,10 @@ public class DonationRequestService : IDonationRequestService
     public async Task<List<DonationRequest>> GetRequestsByStatusAsync(DonationRequestStatus status)
     {
         return await _donationRequestRepo.GetRequestsByStatusAsync(status);
+    }
+
+    public async Task<RequestStatusDto> GetDonationRequestsByStatusAsync()
+    {
+        return await _donationRequestRepo.GetDonationRequestsByStatusAsync();
     }
 }

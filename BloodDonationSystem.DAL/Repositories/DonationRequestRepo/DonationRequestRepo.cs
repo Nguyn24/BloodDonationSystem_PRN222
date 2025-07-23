@@ -1,5 +1,6 @@
 ﻿using BloodDonationSystem.DAL.DBContext;
 using BloodDonationSystem.DAL.Repositories.Requests;
+using BusinessObject.DTO;
 using BusinessObject.Entities;
 using BusinessObject.Entities.Enum;
 using Microsoft.AspNetCore.SignalR;
@@ -162,5 +163,39 @@ public class DonationRequestRepo : IDonationRequestRepo
             .Where(r => r.Status == status)
             .OrderByDescending(r => r.RequestTime)
             .ToListAsync();
+    }
+
+    public async Task<RequestStatusDto> GetDonationRequestsByStatusAsync()
+    {
+        // Lấy các trạng thái có trong DB
+        var groupedStats = await context.DonationRequests
+            .GroupBy(r => r.Status)
+            .Select(g => new
+            {
+                Status = g.Key,
+                Count = g.Count()
+            })
+            .ToListAsync();
+
+        // Lấy toàn bộ Enum
+        var allStatuses = Enum.GetValues(typeof(DonationRequestStatus))
+            .Cast<DonationRequestStatus>();
+
+        // Map về danh sách đầy đủ
+        var result = allStatuses
+            .Select(statusEnum => new StatusCountDto
+            {
+                Status = statusEnum.ToString(),
+                Count = groupedStats.FirstOrDefault(g => g.Status == statusEnum)?.Count ?? 0
+            })
+            .ToList();
+
+        var total = await context.DonationRequests.CountAsync();
+
+        return new RequestStatusDto
+        {
+            Group = result,
+            Count = total
+        };
     }
 }
