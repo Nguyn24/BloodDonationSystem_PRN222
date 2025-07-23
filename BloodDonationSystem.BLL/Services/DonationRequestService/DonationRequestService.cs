@@ -1,7 +1,9 @@
-﻿using BloodDonationSystem.DAL.Repositories.DonationRequestRepo;
+﻿using BloodDonationSystem.DAL.DBContext;
+using BloodDonationSystem.DAL.Repositories.DonationRequestRepo;
 using BloodDonationSystem.DAL.Repositories.Requests;
 using BusinessObject.DTO;
 using BusinessObject.Entities;
+using BusinessObject.Entities.Enum;
 
 namespace BloodDonationSystem.BLL.Services.DonationRequestService;
 
@@ -13,6 +15,7 @@ public class DonationRequestService : IDonationRequestService
     {
         _donationRequestRepo = donationRequestRepo ?? throw new ArgumentNullException(nameof(donationRequestRepo));
     }
+
     public async Task CreateDonationRequestAsync(CreateDonationRequest request)
     {
         await _donationRequestRepo.CreateDonationRequestAsync(request);
@@ -22,13 +25,13 @@ public class DonationRequestService : IDonationRequestService
     {
         return await _donationRequestRepo.GetDonationRequestAsync();
     }
-    
+
     public async Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId)
     {
         return await _donationRequestRepo.GetDonationRequestByIdAsync(requestId);
     }
-    
-    public async Task<List<DonationRequest>> GetMyDonationRequestsAsync( )
+
+    public async Task<List<DonationRequest>> GetMyDonationRequestsAsync()
     {
         return await _donationRequestRepo.GetMyDonationRequestsAsync();
     }
@@ -38,19 +41,24 @@ public class DonationRequestService : IDonationRequestService
         await _donationRequestRepo.DeleteDonationRequestAsync(requestId);
     }
 
-    public async Task ConfirmDonationRequestAsync(Guid requestId)
+    public async Task<DonationRequest> ConfirmDonationRequestAsync(Guid requestId)
     {
-        await _donationRequestRepo.ConfirmDonationRequestAsync(requestId);
+       return await _donationRequestRepo.ConfirmDonationRequestAsync(requestId);
     }
 
-    public async Task CompleteDonationRequestAsync(Guid requestId, int amountBlood)
+
+    public async Task<DonationRequest> CompleteDonationRequestAsync(Guid requestId, int amountBlood)
     {
-        await _donationRequestRepo.CompleteDonationRequestAsync(requestId, amountBlood );
+        return await _donationRequestRepo.CompleteDonationRequestAsync(requestId, amountBlood);
     }
-    
-    public async Task UpdateFailedDonationRequestAsync(Guid requestId, string reason)
+
+    public async Task<DonationRequest> UpdateFailedDonationRequestAsync(Guid requestId, string reason)
     {
-        await _donationRequestRepo.UpdateFailedDonationRequestAsync(requestId, reason);
+        return await _donationRequestRepo.UpdateFailedDonationRequestAsync(requestId, reason);
+    }
+    public async Task<List<DonationRequest>> GetRequestsByStatusAsync(DonationRequestStatus status)
+    {
+        return await _donationRequestRepo.GetRequestsByStatusAsync(status);
     }
 
     public async Task<RequestStatusDto> GetDonationRequestsByStatusAsync()

@@ -75,7 +75,10 @@ public class DonationRequestRepo : IDonationRequestRepo
 
     public async Task<List<DonationRequest>> GetDonationRequestAsync()
     {
-        return await context.DonationRequests.ToListAsync();
+        return await context.DonationRequests
+            .Include(r => r.User)
+            .Include(r => r.BloodType)
+            .ToListAsync();
     }
 
     public async Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId)
@@ -93,7 +96,7 @@ public class DonationRequestRepo : IDonationRequestRepo
     }
 
 
-    public async Task ConfirmDonationRequestAsync(Guid requestId)
+    public async Task<DonationRequest> ConfirmDonationRequestAsync(Guid requestId)
     {
          var donationRequest = await context.DonationRequests
             .Include(x => x.User)
@@ -104,19 +107,28 @@ public class DonationRequestRepo : IDonationRequestRepo
             donationRequest.Status = DonationRequestStatus.Scheduled;
         }
         await context.SaveChangesAsync();
+        return donationRequest;
     }
 
-    public async Task CompleteDonationRequestAsync(Guid requestId, int amountBlood)
+    public async Task<DonationRequest> CompleteDonationRequestAsync(Guid requestId, int amountBlood)
     {
         var donationRequest = await context.DonationRequests
             .FirstOrDefaultAsync(r => r.RequestId == requestId);
-        
+
+        if (donationRequest == null)
+            throw new Exception($"DonationRequest with ID {requestId} not found.");
+
         var bloodStored = await context.BloodStoreds
             .FirstOrDefaultAsync(b => b.BloodTypeId == donationRequest.BloodTypeId);
-        
-        donationRequest.AmountBlood = amountBlood;
 
-        bloodStored.Quantity += donationRequest.AmountBlood;
+        if (bloodStored == null)
+            throw new Exception($"No BloodStored record found for BloodTypeId {donationRequest.BloodTypeId}");
+
+        // Cập nhật thông tin
+        donationRequest.AmountBlood = amountBlood;
+        donationRequest.Status = DonationRequestStatus.Completed;
+
+        bloodStored.Quantity += amountBlood;
         bloodStored.LastUpdated = DateTime.UtcNow;
 
         context.DonationsHistories.Add(new DonationsHistory
@@ -129,12 +141,11 @@ public class DonationRequestRepo : IDonationRequestRepo
             ConfirmedBy = userContext.UserId
         });
 
-        donationRequest.Status = DonationRequestStatus.Completed;
-
         await context.SaveChangesAsync();
+        return donationRequest;
     }
 
-    public async Task UpdateFailedDonationRequestAsync(Guid requestId, string reason)
+    public async Task<DonationRequest> UpdateFailedDonationRequestAsync(Guid requestId, string reason)
     {
         var donationRequest = await context.DonationRequests
             .FirstOrDefaultAsync(r => r.RequestId == requestId);
@@ -142,6 +153,16 @@ public class DonationRequestRepo : IDonationRequestRepo
         donationRequest.Status = DonationRequestStatus.Failed;
         donationRequest.Note = reason;
         await context.SaveChangesAsync();
+        return donationRequest;
+    }
+    public async Task<List<DonationRequest>> GetRequestsByStatusAsync(DonationRequestStatus status)
+    {
+        return await context.DonationRequests
+            .Include(r => r.User)
+            .Include(r => r.BloodType)
+            .Where(r => r.Status == status)
+            .OrderByDescending(r => r.RequestTime)
+            .ToListAsync();
     }
 
     public async Task<RequestStatusDto> GetDonationRequestsByStatusAsync()

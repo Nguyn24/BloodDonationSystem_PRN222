@@ -1,0 +1,58 @@
+﻿@page
+@model BloodDonationSystem.Pages.DonationRequest.Member.EditProfileModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = "_Layout";
+}
+
+<h2>Edit Profile</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="UpdateUser.FullName"></label>
+        <input asp-for="UpdateUser.FullName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="UpdateUser.Email"></label>
+        <input asp-for="UpdateUser.Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="UpdateUser.DateOfBirth"></label>
+        <input asp-for="UpdateUser.DateOfBirth" type="date" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="UpdateUser.Gender"></label>
+        <select asp-for="UpdateUser.Gender" class="form-control">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="UpdateUser.Address"></label>
+        <input asp-for="UpdateUser.Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="UpdateUser.Phone"></label>
+        <input asp-for="UpdateUser.Phone" class="form-control" />
+    </div>
+    <div class="form-group">
+        <select asp-for="UpdateUser.BloodType" class="form-control">
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+        </select>
+    </div>
+
+    <input type="hidden" asp-for="UpdateUser.UserId" />
+    <input type="hidden" asp-for="UpdateUser.Role" />
+    <input type="hidden" asp-for="UpdateUser.Status" />
+    <input type="hidden" asp-for="UpdateUser.IsDonor" />
+
+    <button type="submit" class="btn btn-primary mt-3">Update</button>
+</form>

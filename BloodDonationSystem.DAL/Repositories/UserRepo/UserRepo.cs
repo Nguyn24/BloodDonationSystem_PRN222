@@ -129,6 +129,7 @@ public class UserRepo : IUserRepo
 
     public async Task UpdateUserAsync(User user)
     {
+
         var existingUser = await context.Users.FindAsync(user.UserId);
         if (existingUser == null)
         {
