@@ -49,14 +49,14 @@ public class EditProfileModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync()
-    {
-        if (!ModelState.IsValid)
-        {
-            return Page();
-        }
-
-        await _userService.UpdateUserAsync(UpdateUser);
-        return RedirectToPage("/DonationRequest/Member/EditProfile"); // hoặc trang nào bạn muốn
-    }
+    // public async Task<IActionResult> OnPostAsync()
+    // {
+    //     if (!ModelState.IsValid)
+    //     {
+    //         return Page();
+    //     }
+    //
+    //     await _userService.UpdateUserAsync(UpdateUser);
+    //     return RedirectToPage("/DonationRequest/Member/EditProfile"); // hoặc trang nào bạn muốn
+    // }
 }
