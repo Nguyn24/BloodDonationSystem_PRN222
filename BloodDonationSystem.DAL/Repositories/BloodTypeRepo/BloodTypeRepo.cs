@@ -34,4 +34,9 @@ public class BloodTypeRepo : IBloodTypeRepo
         context.BloodTypes.Remove(bloodType);
         return context.SaveChangesAsync();
     }
+
+    public async Task<BloodType?> GetBloodTypeByIdAsync(Guid id)
+    {
+        return await context.BloodTypes.FindAsync(id);
+    }
 }

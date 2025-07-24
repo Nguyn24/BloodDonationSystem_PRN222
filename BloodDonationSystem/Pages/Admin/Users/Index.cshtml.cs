@@ -1,6 +1,7 @@
 ﻿using BloodDonationSystem.BLL.Services.BloodTypeRepoService;
 using BloodDonationSystem.BLL.Services.UserService;
 using BloodDonationSystem.DAL.DBContext;
+using BloodDonationSystem.DAL.Repositories.Requests;
 using BusinessObject.Entities;
 using BusinessObject.Entities.Enum;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,8 @@ namespace BloodDonationSystem.Pages.Admin.Users
 
         public IList<User> Users { get; set; } = default!;
         public IList<BloodType> BloodTypes { get; set; } = default!;
+
+        public UpdateUserRequest UpdateUser { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -54,7 +57,21 @@ namespace BloodDonationSystem.Pages.Admin.Users
             user.DateOfBirth = DateTime.TryParse(form["DateOfBirth"], out var dt)
                 ? DateOnly.FromDateTime(dt)
                 : user.DateOfBirth;
-            user.BloodTypeId = Guid.TryParse(form["BloodTypeId"], out var bloodTypeId) ? bloodTypeId : user.BloodTypeId;
+            Guid? bloodTypeId = null;
+            if (Guid.TryParse(form["BloodTypeId"], out var parsedBloodTypeId))
+            {
+                bloodTypeId = parsedBloodTypeId;
+            }
+            if (bloodTypeId.HasValue)
+            {
+                var bloodType = await _bloodTypeService.GetBloodTypeByIDAsync(bloodTypeId.Value);
+                if (bloodType != null)
+                {
+                    user.BloodTypeId = bloodType.BloodTypeId;
+                    user.BloodType = bloodType;
+                }
+
+            }
             if (Enum.TryParse<UserGender>(form["Gender"], out var gender))
                 user.Gender = gender;
             user.Address = form["Address"];
@@ -65,7 +82,22 @@ namespace BloodDonationSystem.Pages.Admin.Users
                 user.Status = status;
             user.IsDonor = form["IsDonor"] == "true";
 
-            await _userService.UpdateUserAsync(user);
+            UpdateUser = new UpdateUserRequest
+            {
+                UserId = user.UserId,
+                FullName = user.Name,
+                Email = user.Email,
+                DateOfBirth = user.DateOfBirth,
+                Gender = user.Gender,
+                Address = user.Address,
+                Phone = user.Phone,
+                Role = user.Role,
+                Status = user.Status,
+                IsDonor = user.IsDonor,
+                BloodType = user.BloodType?.Name
+            };
+
+            await _userService.UpdateUserAsync(UpdateUser);
 
             return RedirectToPage();
         }

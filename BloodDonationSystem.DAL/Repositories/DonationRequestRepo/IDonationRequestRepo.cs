@@ -7,7 +7,7 @@ namespace BloodDonationSystem.DAL.Repositories.DonationRequestRepo;
 
 public interface IDonationRequestRepo
 {
-    Task CreateDonationRequestAsync(CreateDonationRequest request);
+    Task<DonationRequest> CreateDonationRequestAsync(CreateDonationRequest request);
     Task<List<DonationRequest>> GetDonationRequestAsync();
     Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId);
     Task<List<DonationRequest>> GetMyDonationRequestsAsync();
