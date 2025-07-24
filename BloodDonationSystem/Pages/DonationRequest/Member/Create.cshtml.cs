@@ -1,6 +1,7 @@
 using BloodDonationSystem.BLL.Services.DonationRequestService;
 using BloodDonationSystem.DAL.Repositories.Requests;
 using BloodDonationSystem.SignalR.Hubs;
+using BusinessObject.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -34,8 +35,16 @@ public class CreateDonationRequestModel : PageModel
     {
         if (!ModelState.IsValid) return Page();
 
-        await _service.CreateDonationRequestAsync(Request);
-        await _hubContext.Clients.All.SendAsync("notify", "New donation request has been created.");
+        var donationRequest = await _service.CreateDonationRequestAsync(Request);
+        await _hubContext.Clients.All.SendAsync("notify", new
+        {
+            requestId = donationRequest.RequestId,
+            user = new { name = donationRequest.User?.Name },
+            bloodType = new { name = donationRequest.BloodType?.Name },
+            requestTime = donationRequest.RequestTime,
+            amountBlood = donationRequest.AmountBlood,
+            status = donationRequest.Status.ToString()
+        });
         return RedirectToPage("/DonationRequest/Member/MyRequest");
     }
 }

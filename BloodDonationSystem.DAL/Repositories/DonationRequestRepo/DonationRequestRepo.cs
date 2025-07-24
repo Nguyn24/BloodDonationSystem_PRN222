@@ -79,12 +79,15 @@ public class DonationRequestRepo : IDonationRequestRepo
         return await context.DonationRequests
             .Include(r => r.User)
             .Include(r => r.BloodType)
+            .OrderByDescending(r => r.RequestTime)
             .ToListAsync();
     }
 
     public async Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId)
     {
         return await context.DonationRequests
+            .Include(r => r.User)
+            .Include(r => r.BloodType)
             .FirstOrDefaultAsync(r => r.RequestId == requestId);
     }
     

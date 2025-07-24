@@ -178,9 +178,77 @@
             .withUrl("/notificationHub")
             .build();
 
-        connection.on("notify", function () {
-            alert("new request has been created, please refresh the page to see the new request");
-            window.location.href = "/DonationRequest/Staff/ManageRequest";
+        connection.on("notify", function (data) {
+            console.log(data);
+            const tbody = document.querySelector("table.table tbody");
+            if (!tbody || !data) return;
+
+            // Tìm tab hiện tại
+            const url = new URL(window.location.href);
+            const activeTab = url.searchParams.get("tab") || "Pending";
+
+            // Tìm dòng có requestId trùng
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            let foundRow = null;
+            rows.forEach(row => {
+                const checkbox = row.querySelector('input[type="checkbox"][name="selectedIds"]');
+                if (checkbox && checkbox.value === data.requestId) {
+                    foundRow = row;
+                }
+            });
+
+            if (data.status === "Cancelled") {
+                // Nếu đang ở tab Pending: xoá dòng khỏi bảng
+                if (activeTab === "Pending" && foundRow) {
+                    tbody.removeChild(foundRow);
+                }
+                // Nếu đang ở tab Processed: thêm dòng mới vào đầu bảng
+                if (activeTab === "Processed") {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><input type="checkbox" name="selectedIds" value="${data.requestId}" /></td>
+                        <td>1</td>
+                        <td>${data.user && data.user.name ? data.user.name : ""}</td>
+                        <td><span class="badge bg-primary">${data.bloodType && data.bloodType.name ? data.bloodType.name : ""}</span></td>
+                        <td>${data.requestTime ? new Date(data.requestTime).toLocaleDateString('en-GB') : ""}</td>
+                        <td>${data.requestTime ? new Date(data.requestTime).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ""}</td>
+                        <td>${data.amountBlood} ml</td>
+                        <td><span class="badge bg-danger">Cancelled</span></td>
+                        <td>
+                            <a href="?handler=Detail&id=${data.requestId}" class="btn btn-sm btn-info">View</a>
+                        </td>
+                    `;
+                    tbody.insertBefore(tr, tbody.firstChild);
+                }
+            } else if (data.status === "Pending") {
+                // Nếu là request mới, chỉ thêm vào đầu bảng (tab Pending)
+                if (activeTab === "Pending") {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><input type="checkbox" name="selectedIds" value="${data.requestId}" /></td>
+                        <td>1</td>
+                        <td>${data.user && data.user.name ? data.user.name : ""}</td>
+                        <td><span class="badge bg-primary">${data.bloodType && data.bloodType.name ? data.bloodType.name : ""}</span></td>
+                        <td>${data.requestTime ? new Date(data.requestTime).toLocaleDateString('en-GB') : ""}</td>
+                        <td>${data.requestTime ? new Date(data.requestTime).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ""}</td>
+                        <td>${data.amountBlood} ml</td>
+                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                        <td>
+                            <a href="?handler=Detail&id=${data.requestId}" class="btn btn-sm btn-info">View</a>
+                            <button type="button" class="btn btn-sm btn-success" onclick="openModal('confirm', '${data.requestId}')">Confirm</button>
+                            <button type="button" class="btn btn-sm btn-danger" onclick="openModal('fail', '${data.requestId}')">Reject</button>
+                        </td>
+                    `;
+                    tbody.insertBefore(tr, tbody.firstChild);
+                }
+            }
+
+            // Cập nhật lại số thứ tự các dòng
+            let idx = 1;
+            tbody.querySelectorAll('tr').forEach(row => {
+                const td = row.querySelectorAll('td')[1];
+                if (td) td.textContent = idx++;
+            });
         });
 
         connection.start().catch(err => console.error(err));
