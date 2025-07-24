@@ -35,12 +35,8 @@ public class CompleteModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         var donationRequest = await _service.CompleteDonationRequestAsync(RequestId, AmountBlood);
-        await _hubContext.Clients.User(donationRequest.UserId.ToString())
-            .SendAsync("ReceiveNotification", new
-            {
-                message = "Your donation has been completed successfully.",
-                status = donationRequest.Status.ToString()
-            });
+        await _hubContext.Clients.All.SendAsync("notifystatus", "Your donation request has been updated.");
+
         return RedirectToPage();
     }
 }
