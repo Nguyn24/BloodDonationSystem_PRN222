@@ -136,22 +136,6 @@
             if (todayCell) {
                 todayCell.click();
             }
-
-            const connection = new signalR.HubConnectionBuilder()
-                .withUrl("/notificationHub")
-                .build();
-            
-            connection.on("ReceiveNotification", function (data) {
-                console.log("Received notification:", data);
-                alert(data.message + "\nStatus: " + data.status);
-            });
-            connection.start()
-                .then(function () {
-                    console.log('SignalR connected!');
-                })
-                .catch(function (err) {
-                    return console.error(err.toString());
-                });
         });
     </script>
 }
