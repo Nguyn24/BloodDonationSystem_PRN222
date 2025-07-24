@@ -122,6 +122,24 @@
 </section>
 
 @section Scripts {
+    <!-- SignalR -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"
+            integrity="sha512-7SRCYIJtR6F8ocwW7UxW6wGKqbSyqREDbfCORCbGLatU0iugBLwyOXpzhkPyHIFdBO0K2VCu57fvP2Twgx1o2A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/notificationHub")
+            .build();
+
+        connection.on("notifystatus", function () {
+            alert("Your request has been updated");
+            window.location.href = "/Member/MyRequest";
+        });
+
+        connection.start().catch(err => console.error(err));
+    </script>
+
+    <!-- Calendar Script -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const cells = document.querySelectorAll('.calendar-grid .day-cell');
@@ -146,23 +164,6 @@
     </script>
 }
 
-@section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"
-            integrity="sha512-7SRCYIJtR6F8ocwW7UxW6wGKqbSyqREDbfCORCbGLatU0iugBLwyOXpzhkPyHIFdBO0K2VCu57fvP2Twgx1o2A=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/notificationHub")
-            .build();
-
-        connection.on("notifystatus", function () {
-            alert("Your request has been updated");
-            window.location.href = "/DonationRequest/Member/MyRequest";
-        });
-
-        connection.start().catch(err => console.error(err));
-    </script>
-}
 
 <style>
     .calendar-grid {
