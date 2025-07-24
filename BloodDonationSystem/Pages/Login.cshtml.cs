@@ -69,7 +69,7 @@ namespace BloodDonationSystem.Pages
 
             if (user.Role == UserRole.Admin)
             {
-                return RedirectToPage("/Admin");
+                return RedirectToPage("/Admin/Dashboard/Index");
             }
             else if (user.Role == UserRole.Staff)
             {
