@@ -69,25 +69,15 @@ public class ManageRequestsModel : PageModel
 
     public async Task<IActionResult> OnPostConfirmAsync(Guid requestId)
     {
-        var donationRequest = await _service.ConfirmDonationRequestAsync(requestId);
-        await _hubContext.Clients.User(donationRequest.UserId.ToString())
-            .SendAsync("ReceiveNotification", new
-            {
-                message = "Your donation request has been confirmed and scheduled.",
-                status = donationRequest.Status.ToString()
-            });
+        await _service.ConfirmDonationRequestAsync(requestId);
+        await _hubContext.Clients.All.SendAsync("notifystatus", "Your donation request has been updated.");
         return RedirectToPage();
     }
 
     public async Task<IActionResult> OnPostFailAsync(Guid requestId, string reason)
     {
-        var donationRequest = await _service.UpdateFailedDonationRequestAsync(requestId, reason);
-        await _hubContext.Clients.User(donationRequest.UserId.ToString())
-            .SendAsync("ReceiveNotification", new
-            {
-                message = "Your donation request failed. Reason: " + reason,
-                status = donationRequest.Status.ToString()
-            });
+        await _service.UpdateFailedDonationRequestAsync(requestId, reason);
+        await _hubContext.Clients.All.SendAsync("notifystatus", "Your donation request has been updated.");
         return RedirectToPage();
     }
     
