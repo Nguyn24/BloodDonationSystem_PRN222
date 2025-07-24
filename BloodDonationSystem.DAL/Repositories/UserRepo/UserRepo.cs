@@ -127,28 +127,24 @@ public class UserRepo : IUserRepo
             .FirstOrDefaultAsync(a => a.UserId == id);
     }
 
-    public async Task UpdateUserAsync(User user)
+    public async Task UpdateUserAsync(UpdateUserRequest request)
     {
+        var user = await context.Users
+            .Include(u => u.BloodType)
+            .FirstOrDefaultAsync(u => u.UserId == request.UserId);
 
-        var existingUser = await context.Users.FindAsync(user.UserId);
-        if (existingUser == null)
-        {
-            throw new InvalidOperationException("User not found.");
-        }
+        user.Name = request.FullName ?? user.Name;
+        user.Email = request.Email ?? user.Email;
+        user.DateOfBirth = request.DateOfBirth ?? user.DateOfBirth;
+        user.Gender = request.Gender ?? user.Gender;
+        user.Address = request.Address ?? user.Address;
+        user.Phone = request.Phone ?? user.Phone;
 
-        // Cập nhật từng thuộc tính
-        existingUser.Name = user.Name;
-        existingUser.Email = user.Email;
-        existingUser.DateOfBirth = user.DateOfBirth;
-        existingUser.BloodTypeId = user.BloodTypeId;
-        existingUser.Gender = user.Gender;
-        existingUser.Address = user.Address;
-        existingUser.Phone = user.Phone;
-        existingUser.Role = user.Role;
-        existingUser.Status = user.Status;
-        existingUser.IsDonor = user.IsDonor;
+        user.Role = request.Role ?? user.Role;
+        user.Status = request.Status ?? user.Status;
+        user.IsDonor = request.IsDonor ?? user.IsDonor;
+        user.BloodType.Name = request.BloodType ?? user.BloodType.Name;
 
-        context.Users.Update(existingUser); // không bắt buộc nếu entity đã được tracked
         await context.SaveChangesAsync();
     }
 

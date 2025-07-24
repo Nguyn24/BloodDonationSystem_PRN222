@@ -45,7 +45,7 @@ public class UserService : IUserService
         await _userRepo.CreateUserAsync(request);
     }
 
-    public async Task UpdateUserAsync(User user)
+    public async Task UpdateUserAsync(UpdateUserRequest user)
     {
         await _userRepo.UpdateUserAsync(user);
     }

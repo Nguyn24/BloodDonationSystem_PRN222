@@ -15,4 +15,9 @@ public class BloodTypeService : IBloodTypeService
     {
         return await _bloodTypeRepo.GetBloodTypeAsync();
     }
+    public async Task<BloodType> GetBloodTypeByIDAsync(Guid id)
+    {
+        return await _bloodTypeRepo.GetBloodTypeByIdAsync(id) 
+               ?? throw new KeyNotFoundException("Blood type not found");
+    }
 }

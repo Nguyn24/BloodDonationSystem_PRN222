@@ -8,4 +8,6 @@ public interface IBloodTypeRepo
     Task UpdateBloodTypeAsync(BloodType bloodType);
     Task CreateBloodTypeAsync(BloodType bloodType);
     Task DeleteBloodTypeAsync(BloodType bloodType);
+
+    Task<BloodType?> GetBloodTypeByIdAsync(Guid id);
 }

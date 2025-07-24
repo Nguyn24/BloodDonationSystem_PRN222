@@ -12,7 +12,7 @@ public interface IUserRepo
     Task<List<BusinessObject.Entities.User>> GetUserByNameAsync(string userName);
     Task CreateUserAsync(CreateUsersRequest request);
     Task<BusinessObject.Entities.User?> GetUserByIdAsync(Guid id);
-    Task UpdateUserAsync(User user);
+    Task UpdateUserAsync(UpdateUserRequest request);
     Task DeleteUserAsync(Guid userID);
     Task<BusinessObject.Entities.User?> GetByEmailAndPasswordAsync(string email, string password);
     Task<List<BusinessObject.Entities.User>> SearchAsync(string keyword);

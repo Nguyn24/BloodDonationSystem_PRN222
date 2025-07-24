@@ -12,7 +12,7 @@ public interface IUserService
     Task<List<User>> GetUserByNameAsync(string userName);
     Task CreateUserAsync(CreateUsersRequest request);
     Task<User?> GetUserByIdAsync(Guid id);
-    Task UpdateUserAsync(User user);
+    Task UpdateUserAsync(UpdateUserRequest user);
     Task DeleteUserAsync(Guid userID);
     Task<User?> AuthenticateAsync(string email, string password);
     Task<List<User>> SearchAsync(string keyword);
