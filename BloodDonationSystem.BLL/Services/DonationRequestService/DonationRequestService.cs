@@ -16,9 +16,9 @@ public class DonationRequestService : IDonationRequestService
         _donationRequestRepo = donationRequestRepo ?? throw new ArgumentNullException(nameof(donationRequestRepo));
     }
 
-    public async Task CreateDonationRequestAsync(CreateDonationRequest request)
+    public async Task<DonationRequest> CreateDonationRequestAsync(CreateDonationRequest request)
     {
-        await _donationRequestRepo.CreateDonationRequestAsync(request);
+        return await _donationRequestRepo.CreateDonationRequestAsync(request);
     }
 
     public async Task<List<DonationRequest>> GetDonationRequestAsync()

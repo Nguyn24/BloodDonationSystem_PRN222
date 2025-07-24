@@ -8,7 +8,7 @@ namespace BloodDonationSystem.BLL.Services.DonationRequestService;
 
 public interface IDonationRequestService
 {
-    Task CreateDonationRequestAsync(CreateDonationRequest request);
+    Task<DonationRequest> CreateDonationRequestAsync(CreateDonationRequest request);
     Task<List<DonationRequest>> GetDonationRequestAsync();
     Task<DonationRequest> GetDonationRequestByIdAsync(Guid requestId);
     Task<List<DonationRequest>> GetMyDonationRequestsAsync( );

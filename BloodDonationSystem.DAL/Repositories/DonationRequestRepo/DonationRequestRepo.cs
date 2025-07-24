@@ -22,7 +22,7 @@ public class DonationRequestRepo : IDonationRequestRepo
         userContext = userCtx ?? throw new ArgumentNullException(nameof(userCtx));
     }
 
-    public async Task CreateDonationRequestAsync(CreateDonationRequest request)
+    public async Task<DonationRequest> CreateDonationRequestAsync(CreateDonationRequest request)
     {
         if (context == null)
             throw new Exception("Database context is not initialized.");
@@ -62,6 +62,7 @@ public class DonationRequestRepo : IDonationRequestRepo
 
         context.DonationRequests.Add(donationRequest);
         await context.SaveChangesAsync();
+        return donationRequest;
     }
 
     public async Task DeleteDonationRequestAsync(Guid requestId)
