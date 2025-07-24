@@ -6,7 +6,15 @@
     Layout = "_Layout";
 }
 
-<section style="background-color: #fef2f4; font-family: 'Poppins', sans-serif; padding: 40px 0;">
+@await Html.PartialAsync("Shared/Navbar/_NavbarMember")
+
+<style>
+    body {
+        background-color: #ffd9e0 !important;
+    }
+</style>
+
+<section style="background-color: #fef2f4; font-family: 'Poppins', sans-serif; padding: 40px 0;background-color:#ffd9e0">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">

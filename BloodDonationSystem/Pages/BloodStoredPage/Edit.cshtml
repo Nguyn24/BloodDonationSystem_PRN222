@@ -2,39 +2,48 @@
 @model BloodDonationSystem.Pages.BloodStoredPage.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Blood Inventory";
+    Layout = "~/Pages/Shared/Staff/_StaffLayout.cshtml"; // Nếu có layout riêng cho Staff
 }
 
-<h1>Edit</h1>
+<section class="container py-5" style="font-family: 'Poppins', sans-serif;">
+    <div class="card shadow border-0 rounded-4 p-4 bg-white">
+        <h2 class="text-danger mb-4" style="font-family: 'Oi'; font-weight: normal;">
+            Edit Blood Inventory
+        </h2>
 
-<h4>BloodStored</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <input type="hidden" asp-for="UpdateRequest.StoredId" />
-            <div class="form-group">
-                <label asp-for="UpdateRequest.BloodTypeId" class="control-label"></label>
-                <select asp-for="UpdateRequest.BloodTypeId" class="form-control" asp-items="ViewBag.BloodTypeId"></select>
-                <span asp-validation-for="UpdateRequest.BloodTypeId" class="text-danger"></span>
+
+            <div class="mb-3">
+                <label asp-for="UpdateRequest.BloodTypeId" class="form-label fw-semibold">Blood Type</label>
+                <select asp-for="UpdateRequest.BloodTypeId" class="form-select rounded-pill" asp-items="ViewBag.BloodTypeId"></select>
+                <span asp-validation-for="UpdateRequest.BloodTypeId" class="text-danger small"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="UpdateRequest.Quantity" class="control-label"></label>
-                <input asp-for="UpdateRequest.Quantity" class="form-control" />
-                <span asp-validation-for="UpdateRequest.Quantity" class="text-danger"></span>
+
+            <div class="mb-3">
+                <label asp-for="UpdateRequest.Quantity" class="form-label fw-semibold">Quantity (ml)</label>
+                <input asp-for="UpdateRequest.Quantity" class="form-control rounded-pill" />
+                <span asp-validation-for="UpdateRequest.Quantity" class="text-danger small"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <a class="btn btn-outline-secondary rounded-pill px-4" asp-page="./Index">
+                    <i class="bi bi-arrow-left-circle me-1"></i> Back to List
+                </a>
+                <button type="submit" class="btn btn-danger rounded-pill px-4">
+                    <i class="bi bi-save me-1"></i> Save
+                </button>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
+</section>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">

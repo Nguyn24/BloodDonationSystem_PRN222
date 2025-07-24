@@ -6,48 +6,46 @@
     Layout = "~/Pages/Shared/Staff/_StaffLayout.cshtml";
 }
 
+<section class="container py-5" style="font-family: 'Poppins', sans-serif;">
+    <div class="card shadow border-0 rounded-4 p-4 bg-white">
+        <h2 class="text-danger mb-4" style="font-family: 'Oi'; font-weight: normal;">
+            Blood Inventory
+        </h2>
 
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-danger text-white" style="font-size: 16px;">
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.BloodStored[0].Quantity)</th>
+                        <th>@Html.DisplayNameFor(model => model.BloodStored[0].LastUpdated)</th>
+                        <th>@Html.DisplayNameFor(model => model.BloodStored[0].BloodType)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.BloodStored)
+                    {
+                        <tr class="pag-row" style="font-size: 15px;">
+                            <td>@item.Quantity</td>
+                            <td>@item.LastUpdated.ToString("dd/MM/yyyy")</td>
+                            <td>@item.BloodType.Description</td>
+                            <td>
+                                <a class="btn btn-outline-primary btn-sm rounded-pill px-3 me-1"
+                                   asp-page="./Edit" asp-route-id="@item.StoredId">Edit</a>
+                                <a class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+                                   asp-page="./Details" asp-route-id="@item.StoredId">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BloodStored[0].Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BloodStored[0].LastUpdated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BloodStored[0].BloodType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.BloodStored) {
-        
-            <tr class="pag-row">
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastUpdated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BloodType.Description)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.StoredId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.StoredId">Details</a> |
-               
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-<nav>
-    <ul class="pagination" id="pagination"></ul>
-</nav>
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+    </div>
+</section>
 
 @section Scripts {
     <script>
@@ -60,7 +58,6 @@
             rows.forEach((row, i) => {
                 row.style.display = (i >= (page - 1) * rowsPerPage && i < page * rowsPerPage) ? '' : 'none';
             });
-            // Highlight active page
             Array.from(pagination.children).forEach((li, idx) => {
                 li.classList.toggle('active', idx === page - 1);
             });
