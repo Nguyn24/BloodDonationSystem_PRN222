@@ -6,7 +6,15 @@
     Layout = "_Layout";
 }
 
-<section class="container py-5" style="font-family: 'Poppins', sans-serif;">
+@await Html.PartialAsync("Shared/Navbar/_NavbarMember")
+
+<style>
+    body {
+        background-color: #ffd9e0 !important;
+    }
+</style>
+
+<section class="container py-5" style="font-family: 'Poppins', sans-serif; background-color:#ffd9e0">
     <h2 class="text-center mb-4" style="color: #bd0026; font-family: 'Oi', cursive;">My Donation History</h2>
 
     @if (Model.History != null && Model.History.Count > 0)
